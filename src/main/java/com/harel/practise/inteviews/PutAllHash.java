@@ -10,9 +10,13 @@ package com.harel.practise.inteviews;
  6. get(key2) -> Z
  7. put(key1, X)
  8. get(key1) -> X
- (. get(key2) -> Z
+ 9. get(key2) -> Z
  */
 
+/*
+A master value in addition to the map. if the value does not exist in the map, take the master.
+when putAll invoke, clear the map.
+ */
 import java.util.HashMap;
 import java.util.Map;
 
