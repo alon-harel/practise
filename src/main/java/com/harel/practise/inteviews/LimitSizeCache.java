@@ -11,8 +11,12 @@ When the cache is full, remove from the cache the least used element.
 public class LimitSizeCache {
     private LinkedList<DoublyLinkedList> queue = new LinkedList<>();  // Replace this with doubly linked list
     private final Map<String, DoublyLinkedList> cache = new HashMap<>();
+
+    // The least used element (first element to be removed in case cache is full):
     private DoublyLinkedList tail;
+    // The Element that was used lately:
     private DoublyLinkedList head;
+
     private final int cacheSize;
 
     public LimitSizeCache(int cacheSize) {
@@ -68,7 +72,7 @@ public class LimitSizeCache {
             head = node;
         }
         else {
-            // The new node becaomes the head. The old head is "pushed" forward. its previous node
+            // The new node becomes the head. The old head is "pushed" forward. its previous node
             // is the new head.
             node.next = head;
             head.setPrev(node);
