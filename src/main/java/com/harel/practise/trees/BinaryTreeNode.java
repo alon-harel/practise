@@ -9,6 +9,10 @@ public class BinaryTreeNode {
         this.value = value;
     }
 
+    public int getValue() {
+        return value;
+    }
+
     public BinaryTreeNode getLeft() {
         return left;
     }
