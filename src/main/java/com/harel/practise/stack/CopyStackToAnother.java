@@ -1,4 +1,4 @@
-package com.harel.practise.inteviews;
+package com.harel.practise.stack;
 
 import java.util.Stack;
 
