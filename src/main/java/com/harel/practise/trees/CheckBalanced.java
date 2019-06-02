@@ -6,6 +6,7 @@ Implement a function to check if a binary tree is balanced.
 For the purposes of this question, a balanced tree is defined to be a tree such
  that the heights of the two subtrees of any node never differ by more than one.
  */
+
 public class CheckBalanced {
 
     public static boolean check(BinaryTreeNode root) {
@@ -34,12 +35,46 @@ public class CheckBalanced {
         return Math.max(getHeight(node.getLeft()), getHeight(node.getRight())) + 1;
     }
 
+
+    public static boolean checkImproved(BinaryTreeNode root) {
+        final int height = calcHeight(root);
+        System.out.println("The Height is: " + height);
+        return height != Integer.MIN_VALUE;
+    }
+
+    private static int calcHeight(BinaryTreeNode node) {
+        if (node == null) {
+            return -1;
+        }
+        int leftHeight = calcHeight(node.getRight());
+        if (leftHeight == Integer.MIN_VALUE) {
+            // Left branch is not balanced. No Point in continue
+            return Integer.MIN_VALUE;
+        }
+        int rightHeight = calcHeight(node.getLeft());
+        if (rightHeight == Integer.MIN_VALUE) {
+            // Right branch is not balanced. No Point in continue
+            return Integer.MIN_VALUE;
+
+        }
+
+        if (Math.abs(leftHeight - rightHeight) > 1) {
+            // The left and right are not of the same height, return ERROR.
+            return Integer.MIN_VALUE;
+        }
+        else {
+            // Return the node's height:
+            return Math.max(leftHeight, rightHeight) + 1;
+        }
+    }
+
     public static void main(String[] args) {
         BinaryTreeNode root = new BinaryTreeNode(1);
         root.addLeft(1).addLeft(1).addLeft(1).addLeft(1);
         root.addRight(1).addRight(1).addRight(1).addRight(1);
 
         System.out.println("This tree is NOT balanced: " + check(root));
+        System.out.println("This tree is NOT balanced: " + checkImproved(root));
         System.out.println("--------------------------");
         root = new BinaryTreeNode(1);
         BinaryTreeNode left = root.addLeft(1);
@@ -58,6 +93,7 @@ public class CheckBalanced {
         rr.addRight(1);
 
         System.out.println("This tree IS balanced: " + check(root));
+        System.out.println("This tree IS balanced: " + checkImproved(root));
     }
 
 }
