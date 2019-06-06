@@ -1,8 +1,8 @@
-package com.harel.practise.inteviews.ever;
+package com.harel.practise.inteviews.evercompliant;
 
-import com.harel.practise.inteviews.ever.model.Coordinate;
-import com.harel.practise.inteviews.ever.model.Item;
-import com.harel.practise.inteviews.ever.model.ItemType;
+import com.harel.practise.inteviews.evercompliant.model.Coordinate;
+import com.harel.practise.inteviews.evercompliant.model.Item;
+import com.harel.practise.inteviews.evercompliant.model.ItemType;
 
 public class FinderCtrl {
 

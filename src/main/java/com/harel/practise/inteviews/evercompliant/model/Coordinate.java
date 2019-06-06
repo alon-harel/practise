@@ -1,4 +1,4 @@
-package com.harel.practise.inteviews.ever.model;
+package com.harel.practise.inteviews.evercompliant.model;
 
 public class Coordinate {
     private int x;
@@ -18,7 +18,8 @@ public class Coordinate {
     }
 
     public double distanceFrom(Coordinate coordinate) {
-        return Math.sqrt(Math.pow(this.x - coordinate.x, 2) +Math.pow(this.y - coordinate.y, 2));
+        return Math.sqrt(
+                Math.pow(this.x - coordinate.getX(), 2) +Math.pow(this.y - coordinate.getY(), 2));
     }
 
     @Override

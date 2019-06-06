@@ -1,6 +1,6 @@
-package com.harel.practise.inteviews.ever.dal;
+package com.harel.practise.inteviews.evercompliant.dal;
 
-import com.harel.practise.inteviews.ever.model.*;
+import com.harel.practise.inteviews.evercompliant.model.*;
 
 import java.util.Arrays;
 import java.util.HashMap;

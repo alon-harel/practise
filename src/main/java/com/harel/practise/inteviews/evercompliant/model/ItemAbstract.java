@@ -1,4 +1,4 @@
-package com.harel.practise.inteviews.ever.model;
+package com.harel.practise.inteviews.evercompliant.model;
 
 public abstract class ItemAbstract implements Item {
 
