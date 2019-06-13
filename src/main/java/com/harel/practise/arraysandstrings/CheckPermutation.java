@@ -57,7 +57,5 @@ public class CheckPermutation {
         System.out.println("Count Chars");
         System.out.println(str1 + " and " + str2 + " are permutations: " + isPermutationNaive(str1, str2));
         System.out.println(str3 + " and " + str4 + " are permutations: " + isPermutationNaive(str3, str4));
-
-
     }
 }
