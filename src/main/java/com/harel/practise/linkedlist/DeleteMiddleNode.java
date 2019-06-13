@@ -24,8 +24,5 @@ public class DeleteMiddleNode {
         System.out.println("----------------------------");
         DeleteMiddleNode.delete(node.getNext().getNext());
         System.out.println(node.toString());
-
-
-
     }
 }
