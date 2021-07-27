@@ -52,7 +52,7 @@ public class IteratorOfIterators implements Iterator<Integer> {
             }
         }
         if (iteratorWithSmallestValue != null) {
-            // Put the next iterator item:
+            // Update the itereator with its next item:
             if (iteratorWithSmallestValue.hasNext()) {
                 iteratorToCurrentValue.put(iteratorWithSmallestValue, iteratorWithSmallestValue.next());
             }
