@@ -8,39 +8,60 @@ package com.harel.practise.inteviews;
  4. putAll(Z) // Replace all keys with the value Z
  5. get(key1) -> Z
  6. get(key2) -> Z
- 7. put(key1, X)
- 8. get(key1) -> X
- 9. get(key2) -> Z
+ 7. get(ke3) -> null
+ 8. put(key1, X)
+ 9. get(key1) -> X
+ 10. get(key2) -> Z
+ 11. get(ke3) -> null
  */
 
 /*
-A master value in addition to the map. if the value does not exist in the map, take the master.
-when putAll invoke, clear the map.
+A master value in addition to the map.
+Insert the items with time stamp to see if to take master or not.
  */
 import java.util.HashMap;
 import java.util.Map;
 
 public class PutAllHash {
 
-    private Integer masterValue = null;
-    private Map<Integer, Integer> map = new HashMap<>();
+    class Item {
+        Integer value;
+        long timeStamp;
+
+        public Item(Integer value) {
+            this.value = value;
+            this.timeStamp = System.currentTimeMillis();
+            try {
+                // Some delay so times will differ
+                Thread.sleep(10);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private Item masterValue = null;
+    private final Map<Integer, Item> map = new HashMap<>();
 
     void put(Integer key, Integer value) {
-        map.put(key, value);
+        map.put(key, new Item(value));
+
     }
 
     void putAll(Integer value) {
-        masterValue = value;
-        map.clear();
+        masterValue = new Item(value);
     }
 
     Integer get(Integer key) {
-        Integer retVal = masterValue;
-        if (map.containsKey(key)) {
-            retVal = map.get(key);
+        Item item = map.get(key);
+        if (item != null) {
+            if (masterValue != null) {
+                if (item.timeStamp < masterValue.timeStamp) {
+                    item = masterValue;
+                }
+            }
         }
-
-        return retVal;
+        return item != null ? item.value : null;
     }
 
     public static void main(String[] args) {
@@ -49,12 +70,14 @@ public class PutAllHash {
         putAllHash.put(2, 2);
         System.out.println(putAllHash.get(1));
         System.out.println(putAllHash.get(2));
+        System.out.println(putAllHash.get(3)); // -> null
         putAllHash.putAll(100); // Default key is now 100
         System.out.println(putAllHash.get(1));
         System.out.println(putAllHash.get(2));
         putAllHash.put(1, 1); // Override key = 1
         System.out.println(putAllHash.get(1));
-        System.out.println(putAllHash.get(2));
-        // Result: 1, 2, 100, 100, 1, 100
+        System.out.println(putAllHash.get(2)); // stay 100
+        System.out.println(putAllHash.get(3));
+        // Result: 1, 2, null, 100, 100, 1, 100, null
     }
 }
