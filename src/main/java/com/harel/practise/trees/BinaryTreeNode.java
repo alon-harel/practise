@@ -1,7 +1,7 @@
 package com.harel.practise.trees;
 
 public class BinaryTreeNode {
-    private int value;
+    private final int value;
     private BinaryTreeNode left;
     private BinaryTreeNode right;
 
