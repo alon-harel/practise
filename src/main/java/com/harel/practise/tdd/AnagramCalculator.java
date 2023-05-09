@@ -7,10 +7,10 @@ public class AnagramCalculator {
 
     public List<String> calc(String str) {
         if (str.isEmpty()) {
-            return handleEmptyString();
+            return returnEmptyList();
         }
         else if (str.length() == 1) {
-            return handleSingleCharactersString(str);
+            return returnAListWithTheProvidedString(str);
         }
         else if (str.length() == 2) {
             return handleTwoCharactersString(str);
@@ -19,14 +19,18 @@ public class AnagramCalculator {
     }
 
     private static List<String> handleTwoCharactersString(String str) {
-        return List.of(str, str.substring(1) + str.charAt(0));
+        return List.of(str, swapString(str));
     }
 
-    private static List<String> handleSingleCharactersString(String str) {
+    private static String swapString(String str) {
+        return str.substring(1) + str.charAt(0);
+    }
+
+    private static List<String> returnAListWithTheProvidedString(String str) {
         return List.of(str);
     }
 
-    private static List<String> handleEmptyString() {
+    private static List<String> returnEmptyList() {
         return List.of();
     }
 
