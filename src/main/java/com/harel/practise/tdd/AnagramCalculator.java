@@ -13,28 +13,28 @@ public class AnagramCalculator {
             return returnAListWithTheProvidedString(str);
         }
         else if (str.length() == 2) {
-            return handleTwoCharactersString(str);
+            return returnStrAndSwappedStr(str);
         }
-        return handleString(str);
-    }
-
-    private static List<String> handleTwoCharactersString(String str) {
-        return List.of(str, swapString(str));
-    }
-
-    private static String swapString(String str) {
-        return str.substring(1) + str.charAt(0);
-    }
-
-    private static List<String> returnAListWithTheProvidedString(String str) {
-        return List.of(str);
+        return handle(str);
     }
 
     private static List<String> returnEmptyList() {
         return List.of();
     }
 
-    private List<String> handleString(String str) {
+    private static List<String> returnAListWithTheProvidedString(String str) {
+        return List.of(str);
+    }
+
+    private static List<String> returnStrAndSwappedStr(String str) {
+        return List.of(str, swapTwoCharsString(str));
+    }
+
+    private static String swapTwoCharsString(String str) {
+        return str.substring(1) + str.charAt(0);
+    }
+
+    private List<String> handle(String str) {
         List<String> anagrams = new ArrayList<>();
         for (int i = 0; i < str.length(); i++) {
             List<String> tmp = calc(stringWithoutCharacterAtIndex(i, str));
