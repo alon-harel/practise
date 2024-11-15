@@ -7,46 +7,31 @@ public class AnagramCalculator {
 
     public List<String> calc(String str) {
         if (str.isEmpty()) {
-            return returnEmptyList();
+            return List.of();
         }
-        else if (str.length() == 1) {
-            return returnAListWithTheProvidedString(str);
+        if (str.length() == 1) {
+            return List.of(str);
         }
-        else if (str.length() == 2) {
-            return returnStrAndSwappedStr(str);
+        if (str.length() == 2) {
+            return List.of(str, swap(str));
         }
-        return handle(str);
-    }
 
-    private static List<String> returnEmptyList() {
-        return List.of();
-    }
-
-    private static List<String> returnAListWithTheProvidedString(String str) {
-        return List.of(str);
-    }
-
-    private static List<String> returnStrAndSwappedStr(String str) {
-        return List.of(str, swapTwoCharsString(str));
-    }
-
-    private static String swapTwoCharsString(String str) {
-        return str.substring(1) + str.charAt(0);
-    }
-
-    private List<String> handle(String str) {
-        List<String> anagrams = new ArrayList<>();
-        for (int i = 0; i < str.length(); i++) {
-            List<String> tmp = calc(stringWithoutCharacterAtIndex(i, str));
-            for (String s : tmp) {
-                anagrams.add(str.charAt(i) + s);
+        List<String> retVal = new ArrayList<>();
+        for (int position = 0; position < str.length(); position++) {
+            List<String> results = calc(stringWithoutLetterAtPosition(str, position));
+            for (String s : results) {
+                retVal.add(str.charAt(position) + s);
             }
         }
 
-        return anagrams;
+        return retVal;
     }
 
-    private String stringWithoutCharacterAtIndex(int index, String str) {
-        return str.substring(0, index) + str.substring(index + 1);
+    private String stringWithoutLetterAtPosition(String str, int position) {
+        return str.substring(0, position) + str.substring(position + 1);
+    }
+
+    private String swap(String str) {
+        return str.substring(1) + str.charAt(0);
     }
 }

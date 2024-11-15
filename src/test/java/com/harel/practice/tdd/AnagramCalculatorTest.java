@@ -3,37 +3,37 @@ package com.harel.practice.tdd;
 import com.harel.practise.tdd.AnagramCalculator;
 import org.junit.Test;
 
-import java.util.HashSet;
-
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.containsInAnyOrder;
-import static org.hamcrest.Matchers.hasSize;
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class AnagramCalculatorTest {
+
     private final AnagramCalculator anagramCalculator = new AnagramCalculator();
 
     @Test
-    public void shouldCalcAnagramForAnEmptyString() {
-        assertThat(anagramCalculator.calc(""), hasSize(0));
+    public void returnEmptyList_whenStringIsEmpty() {
+        assertThat(anagramCalculator.calc("")).isEmpty();
     }
 
     @Test
-    public void shouldCalcAnagramForASingleCharacterString() {
-        assertThat(anagramCalculator.calc("a"), containsInAnyOrder("a"));
+    public void returnAnagram_whenStringHasSingleLetter() {
+        assertThat(anagramCalculator.calc("a")).containsExactlyInAnyOrder("a");
     }
 
     @Test
-    public void shouldCalcAnagramForATwoCharactersString() {
-        assertThat(anagramCalculator.calc("ab"), containsInAnyOrder("ab", "ba"));
+    public void returnAnagram_whenStringHasTwoLetters() {
+        assertThat(anagramCalculator.calc("ab")).containsExactlyInAnyOrder("ab", "ba");
     }
 
     @Test
-    public void shouldCalcAnagramForAThreeCharactersString() {
-        assertThat(anagramCalculator.calc("abc"), containsInAnyOrder("abc", "acb", "bac", "bca", "cab", "cba"));
+    public void returnAnagram_whenStringHasThreeLetters() {
+        assertThat(anagramCalculator.calc("abc")).containsExactlyInAnyOrder(
+            "abc", "acb",
+            "bac", "bca",
+            "cab", "cba");
     }
 
     @Test
-    public void shouldCalcAnagramForAFiveCharactersString() {
-        assertThat(new HashSet<>(anagramCalculator.calc("abcde")), hasSize(5*4*3*2));
+    public void returnAnagram_sanity() {
+        assertThat(anagramCalculator.calc("abcdefg")).hasSize(7*6*5*4*3*2);
     }
 }
