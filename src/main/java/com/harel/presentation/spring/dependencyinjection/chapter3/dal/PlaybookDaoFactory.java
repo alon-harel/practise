@@ -5,8 +5,8 @@ public class PlaybookDaoFactory {
     private final static PlaybookDao pgDemoPlaybookDao = new PgDemoPlaybookDao();
     private final static PlaybookDao h2PlaybookDao = new H2PlaybookDao();
 
-    public static PlaybookDao provide(String databaseType) {
-        switch (databaseType) {
+    public static PlaybookDao provide(String profile) {
+        switch (profile) {
             case ("prod"):
                 return pgPlaybookDao;
             case("demo"):
@@ -14,7 +14,7 @@ public class PlaybookDaoFactory {
             case("test"):
                 return h2PlaybookDao;
             default:
-                throw new IllegalArgumentException("unknown database type. type=" + databaseType);
+                throw new IllegalArgumentException("unknown profile. profile=" + profile);
         }
 
     }
