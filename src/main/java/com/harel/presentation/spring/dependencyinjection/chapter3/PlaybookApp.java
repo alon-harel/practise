@@ -6,7 +6,9 @@ import com.harel.presentation.spring.dependencyinjection.chapter3.dal.PlaybookDa
 
 public class PlaybookApp {
     public static void main(String[] args) {
-        PlaybookDao playbookDao = PlaybookDaoFactory.provide(args[0]);
+        String profile = args[0];
+        System.out.println("application running with profile=" + profile);
+        PlaybookDao playbookDao = PlaybookDaoFactory.provide(profile);
         PlaybookScoreCalculator playbookScoreCalculator = new PlaybookScoreCalculator(playbookDao);
 
         playbookScoreCalculator.calc(100);

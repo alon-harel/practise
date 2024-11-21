@@ -1,6 +1,6 @@
 package com.harel.presentation.spring.dependencyinjection.chapter3.service;
 
-import com.harel.presentation.spring.dependencyinjection.Playbook;
+import com.harel.presentation.spring.Playbook;
 import com.harel.presentation.spring.dependencyinjection.chapter3.dal.PlaybookDao;
 
 public class PlaybookScoreCalculator {

@@ -1,6 +1,6 @@
 package com.harel.presentation.spring.dependencyinjection.chapter2;
 
-import com.harel.presentation.spring.dependencyinjection.Playbook;
+import com.harel.presentation.spring.Playbook;
 
 public class PlaybookDao {
     public Playbook readPlaybookById(long playbookId) {

@@ -1,4 +1,4 @@
-package com.harel.presentation.spring.dependencyinjection.chapter3.dal;
+package com.harel.presentation.spring.syntax.chapter4.dal;
 
 import com.harel.presentation.spring.Playbook;
 
