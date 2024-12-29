@@ -11,7 +11,7 @@ public class PlaybookScoreCalculator {
 
     private Playbook readPlaybookById(long playbookId) {
         /*
-        String url = "jdbc:postgresql://localhost:5432/your_database";
+        String url = "jdbc:postgresql://localhost:5432/playbook_database";
         String user = "your_username";
         String password = "your_password";
 

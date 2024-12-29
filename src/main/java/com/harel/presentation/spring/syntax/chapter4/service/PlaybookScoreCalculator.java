@@ -1,9 +1,6 @@
 package com.harel.presentation.spring.syntax.chapter4.service;
 
 import com.harel.presentation.spring.Playbook;
-import com.harel.presentation.spring.syntax.chapter4.dal.H2PlaybookDao;
-import com.harel.presentation.spring.syntax.chapter4.dal.PgDemoPlaybookDao;
-import com.harel.presentation.spring.syntax.chapter4.dal.PgPlaybookDao;
 import com.harel.presentation.spring.syntax.chapter4.dal.PlaybookDao;
 import com.harel.presentation.spring.syntax.chapter4.dal.PlaybookDaoConfig;
 import org.springframework.context.annotation.Bean;
@@ -32,6 +29,7 @@ public class PlaybookScoreCalculator {
     public static class Beans {
         @Bean
         public PlaybookScoreCalculator playbookScoreCalculator(PlaybookDao playbookDao) {
+            System.out.println("constructing PlaybookScoreCalculator");
             return new PlaybookScoreCalculator(playbookDao);
         }
     }

@@ -10,18 +10,21 @@ public class PlaybookDaoConfig {
     @Profile("prod")
     @Bean
     public PgPlaybookDao pgPlaybookDao() {
+        System.out.println("constructing PgPlaybookDao");
         return new PgPlaybookDao();
     }
 
     @Profile("demo")
     @Bean
     public PgDemoPlaybookDao pgDemoPlaybookDao() {
+        System.out.println("constructing PgDemoPlaybookDao");
         return new PgDemoPlaybookDao();
     }
 
     @Profile("test")
     @Bean
     public H2PlaybookDao h2PlaybookDao() {
+        System.out.println("constructing H2PlaybookDao");
         return new H2PlaybookDao();
     }
 }
