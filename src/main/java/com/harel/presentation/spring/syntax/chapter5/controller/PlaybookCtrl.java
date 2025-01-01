@@ -10,15 +10,6 @@ public class PlaybookCtrl {
     @Autowired
     private PlaybookScoreCalculator playbookScoreCalculator;
 
-    public PlaybookCtrl() {
-        System.out.println("After constructing Spring will scan the class and search for @Autowire annotations");
-    }
-
-//    public PlaybookCtrl(PlaybookScoreCalculator playbookScoreCalculator) {
-//        this.playbookScoreCalculator = playbookScoreCalculator;
-//        System.out.println("Spring will inject the calculator via this c'tr");
-//    }
-
     @GetMapping(path = "calc")
     public Integer calc() {
         return playbookScoreCalculator.calc(10);

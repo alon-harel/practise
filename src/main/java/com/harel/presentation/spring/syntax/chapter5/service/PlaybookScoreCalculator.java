@@ -10,6 +10,15 @@ public class PlaybookScoreCalculator {
     @Autowired
     private PlaybookDao playbookDao;
 
+    public PlaybookScoreCalculator() {
+        System.out.println("After constructing Spring will scan the class and search for @Autowire annotations");
+    }
+
+//    public PlaybookScoreCalculator(PlaybookDao playbookDao) {
+//        this.playbookDao = playbookDao;
+//        System.out.println("Spring will inject the calculator via this c'tr");
+//    }
+
     public int calc(long playbookId) {
         Playbook playbook = playbookDao.readPlaybookById(playbookId);
         return calc(playbook);
