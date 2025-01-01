@@ -32,5 +32,17 @@ public class PlaybookScoreCalculator {
             System.out.println("constructing PlaybookScoreCalculator");
             return new PlaybookScoreCalculator(playbookDao);
         }
+
+        public PlaybookScoreCalculator notAnnotatedAsBean(PlaybookDao playbookDao) {
+            System.out.println("This message will not be shown");
+            return new PlaybookScoreCalculator(playbookDao);
+        }
+
+        /*
+        1. What happens if we put @Bean on notAnnotatedAsBean?
+        2. @Primary - good for tests
+        3. Bean qualifier - read or write database dao
+        4. Profiles
+         */
     }
 }

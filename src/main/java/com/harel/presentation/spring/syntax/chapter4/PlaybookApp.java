@@ -12,7 +12,7 @@ public class PlaybookApp {
         ConfigurableApplicationContext context = SpringApplication.run(PlaybookApp.class, args);
 
         PlaybookScoreCalculator bean = context.getBean(PlaybookScoreCalculator.class);
-        bean.calc(100);
+        bean.calc(666);
+        System.out.println("calculated playbook score");
     }
-
 }

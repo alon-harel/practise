@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 public class PlaybookScoreCalculator {
     @Autowired
     private PlaybookDao playbookDao;
-    
 
     public int calc(long playbookId) {
         Playbook playbook = playbookDao.readPlaybookById(playbookId);
