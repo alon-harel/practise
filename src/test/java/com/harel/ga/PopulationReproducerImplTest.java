@@ -1,6 +1,5 @@
 package com.harel.ga;
 
-import com.harel.ga.chromosome.AlphabeticChromosome;
 import org.apache.commons.lang3.tuple.Pair;
 import org.junit.Test;
 
@@ -14,14 +13,14 @@ public class PopulationReproducerImplTest {
 
     @Test
     public void reproduceGeneration_fromCurrentGenerationAndItsFitnessScores() {
-        ChromosomeWithScore firstParent = new ChromosomeWithScore(new AlphabeticChromosome(List.of("a")), 100.0);
-        ChromosomeWithScore secondParent = new ChromosomeWithScore(new AlphabeticChromosome(List.of("b")), 1.0);
+        ChromosomeWithScore firstParent = new ChromosomeWithScore(new Chromosome(List.of("a")), 100.0);
+        ChromosomeWithScore secondParent = new ChromosomeWithScore(new Chromosome(List.of("b")), 1.0);
         List<ChromosomeWithScore> generation = List.of(firstParent, secondParent);
 
-        AlphabeticChromosome firstOffspring = new AlphabeticChromosome(List.of("c"));
-        AlphabeticChromosome secondOffspring = new AlphabeticChromosome(List.of("d"));
-        AlphabeticChromosome firstMutatedOffspring = new AlphabeticChromosome(List.of("e"));
-        AlphabeticChromosome secondMutatedOffspring = new AlphabeticChromosome(List.of("f"));
+        Chromosome firstOffspring = new Chromosome(List.of("c"));
+        Chromosome secondOffspring = new Chromosome(List.of("d"));
+        Chromosome firstMutatedOffspring = new Chromosome(List.of("e"));
+        Chromosome secondMutatedOffspring = new Chromosome(List.of("f"));
 
         ChromosomeSelector chromosomeSelector = mock(ChromosomeSelector.class);
         CrossoverPerformer crossoverPerformer = mock(CrossoverPerformer.class);

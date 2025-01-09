@@ -1,9 +1,17 @@
 package com.harel.ga;
 
+import lombok.AllArgsConstructor;
+import lombok.Value;
+
+import java.util.ArrayList;
 import java.util.List;
 
-public interface Chromosome {
-    List<?> getGenes();
+@Value
+@AllArgsConstructor
+public class Chromosome {
+    List<Object> genes;
 
-   // Chromosome cloneWithMyGenes();
+    public Chromosome(Chromosome chromosome) {
+        this.genes = new ArrayList<>(chromosome.getGenes());
+    }
 }

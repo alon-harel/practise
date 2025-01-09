@@ -2,7 +2,6 @@ package com.harel.ga.selector;
 
 import com.harel.ga.Chromosome;
 import com.harel.ga.ChromosomeWithScore;
-import com.harel.ga.chromosome.AlphabeticChromosome;
 import org.junit.Test;
 import org.junit.jupiter.api.BeforeEach;
 
@@ -33,7 +32,7 @@ public class RouletteWheelSelectorTest {
     }
 
     private ChromosomeWithScore createChromosomeWithScore(double score) {
-        return new ChromosomeWithScore(new AlphabeticChromosome(List.of(UUID.randomUUID().toString())), score);
+        return new ChromosomeWithScore(new Chromosome(List.of(UUID.randomUUID().toString())), score);
     }
 
     @Test

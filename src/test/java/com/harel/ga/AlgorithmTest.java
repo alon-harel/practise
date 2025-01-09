@@ -1,6 +1,5 @@
 package com.harel.ga;
 
-import com.harel.ga.chromosome.AlphabeticChromosome;
 import org.junit.Test;
 import org.junit.jupiter.api.BeforeEach;
 
@@ -57,8 +56,8 @@ public class AlgorithmTest {
     }
 
     private List<ChromosomeWithScore> createGenerationWithScore() {
-        ChromosomeWithScore chromosome1 = new ChromosomeWithScore(new AlphabeticChromosome(List.of(UUID.randomUUID().toString())), new Random().nextDouble());
-        ChromosomeWithScore chromosome2 = new ChromosomeWithScore(new AlphabeticChromosome(List.of(UUID.randomUUID().toString())), new Random().nextDouble());
+        ChromosomeWithScore chromosome1 = new ChromosomeWithScore(new Chromosome(List.of(UUID.randomUUID().toString())), new Random().nextDouble());
+        ChromosomeWithScore chromosome2 = new ChromosomeWithScore(new Chromosome(List.of(UUID.randomUUID().toString())), new Random().nextDouble());
 
         return List.of(chromosome1, chromosome2);
     }
