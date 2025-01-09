@@ -5,7 +5,6 @@ import org.apache.commons.lang3.tuple.Pair;
 import org.junit.Test;
 
 import java.util.List;
-import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
@@ -14,10 +13,11 @@ import static org.mockito.Mockito.when;
 public class PopulationReproducerImplTest {
 
     @Test
-    public void reproducePopulation_fromCurrentOneAndFitnessScores() {
-        AlphabeticChromosome firstParent = new AlphabeticChromosome(List.of("a"));
-        AlphabeticChromosome secondParent = new AlphabeticChromosome(List.of("b"));
-        Map<Chromosome, Double> chromosomeByFitnessScore = Map.of(firstParent, 10.0, secondParent, 20.0);
+    public void reproduceGeneration_fromCurrentGenerationAndItsFitnessScores() {
+        ChromosomeWithScore firstParent = new ChromosomeWithScore(new AlphabeticChromosome(List.of("a")), 100.0);
+        ChromosomeWithScore secondParent = new ChromosomeWithScore(new AlphabeticChromosome(List.of("b")), 1.0);
+        List<ChromosomeWithScore> generation = List.of(firstParent, secondParent);
+
         AlphabeticChromosome firstOffspring = new AlphabeticChromosome(List.of("c"));
         AlphabeticChromosome secondOffspring = new AlphabeticChromosome(List.of("d"));
         AlphabeticChromosome firstMutatedOffspring = new AlphabeticChromosome(List.of("e"));
@@ -29,14 +29,14 @@ public class PopulationReproducerImplTest {
         PopulationReproducerImpl populationReproducer = new PopulationReproducerImpl(chromosomeSelector,
             crossoverPerformer, mutationPerformer);
 
-        when(chromosomeSelector.select(chromosomeByFitnessScore))
-            .thenReturn(firstParent)
-            .thenReturn(secondParent);
-        when(crossoverPerformer.perform(firstParent, secondParent)).thenReturn(Pair.of(firstOffspring, secondOffspring));
+        when(chromosomeSelector.select(generation))
+            .thenReturn(firstParent.getChromosome())
+            .thenReturn(secondParent.getChromosome());
+        when(crossoverPerformer.perform(firstParent.getChromosome(), secondParent.getChromosome())).thenReturn(Pair.of(firstOffspring, secondOffspring));
         when(mutationPerformer.mutated(firstOffspring)).thenReturn(firstMutatedOffspring);
         when(mutationPerformer.mutated(secondOffspring)).thenReturn(secondMutatedOffspring);
 
-        assertThat(populationReproducer.reproduce(chromosomeByFitnessScore))
+        assertThat(populationReproducer.reproduce(generation))
             .containsExactlyInAnyOrder(firstMutatedOffspring, secondMutatedOffspring);
     }
 }

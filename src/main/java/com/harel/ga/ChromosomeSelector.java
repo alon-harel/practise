@@ -1,7 +1,8 @@
 package com.harel.ga;
 
-import java.util.Map;
+import java.util.List;
+
 
 public interface ChromosomeSelector {
-    Chromosome select(Map<Chromosome, Double> chromosomeByFitnessScore);
+    Chromosome select(List<ChromosomeWithScore> generationWithFitnessScores);
 }

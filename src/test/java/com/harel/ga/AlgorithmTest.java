@@ -4,8 +4,11 @@ import com.harel.ga.chromosome.AlphabeticChromosome;
 import org.junit.Test;
 import org.junit.jupiter.api.BeforeEach;
 
+import java.util.Comparator;
 import java.util.List;
-import java.util.Map;
+import java.util.Random;
+import java.util.UUID;
+import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
@@ -30,41 +33,53 @@ public class AlgorithmTest {
 
     @Test
     public void returnFittestChromosome_whenThereIsOnlyOneGeneration() {
-        AlphabeticChromosome fittestChromosome = new AlphabeticChromosome(List.of("a"));
-        AlphabeticChromosome anotherChromosome = new AlphabeticChromosome(List.of("b"));
-        List<Chromosome> firstGeneration = List.of(fittestChromosome, anotherChromosome);
-        Map<Chromosome, Double> populationWithFittestScore = Map.of(
-            fittestChromosome, 100.0,
-            anotherChromosome, 1.0);
+        List<ChromosomeWithScore> generationWithScores = createGenerationWithScore();
+        List<Chromosome> generation = createGenerationFrom(generationWithScores);
+        ChromosomeWithScore fittestChromosome = findFittestChromosome(generationWithScores);
 
-        when(populationInitializer.init(firstGeneration.size())).thenReturn(firstGeneration);
-        when(fitnessScoreCalculator.calc(firstGeneration)).thenReturn(populationWithFittestScore);
-        when(fittestChromosomeFinder.find(populationWithFittestScore)).thenReturn(fittestChromosome);
+        when(populationInitializer.init(generation.size())).thenReturn(generation);
+        when(fitnessScoreCalculator.calc(generation)).thenReturn(generationWithScores);
+        when(fittestChromosomeFinder.find(generationWithScores)).thenReturn(fittestChromosome);
 
-        assertThat(algorithm.execute(firstGeneration.size(), 1)).isEqualTo(fittestChromosome);
+        assertThat(algorithm.execute(generation.size(), 1)).isEqualTo(fittestChromosome);
+    }
+
+    private ChromosomeWithScore findFittestChromosome(List<ChromosomeWithScore> generationWithScores) {
+        return generationWithScores.stream()
+            .max(Comparator.comparingDouble(ChromosomeWithScore::getScore))
+            .orElseThrow(() -> new RuntimeException("failed to find the max score"));
+    }
+
+    private List<Chromosome> createGenerationFrom(List<ChromosomeWithScore> generationWithScores) {
+        return generationWithScores.stream()
+            .map(ChromosomeWithScore::getChromosome)
+            .collect(Collectors.toList());
+    }
+
+    private List<ChromosomeWithScore> createGenerationWithScore() {
+        ChromosomeWithScore chromosome1 = new ChromosomeWithScore(new AlphabeticChromosome(List.of(UUID.randomUUID().toString())), new Random().nextDouble());
+        ChromosomeWithScore chromosome2 = new ChromosomeWithScore(new AlphabeticChromosome(List.of(UUID.randomUUID().toString())), new Random().nextDouble());
+
+        return List.of(chromosome1, chromosome2);
     }
 
     @Test
     public void returnFittestChromosome_fromSecondGeneration() {
-        AlphabeticChromosome fittestChromosomeFirstGen = new AlphabeticChromosome(List.of("a"));
-        AlphabeticChromosome anotherChromosomeFirstGen = new AlphabeticChromosome(List.of("b"));
-        AlphabeticChromosome fittestChromosomeSecondGen = new AlphabeticChromosome(List.of("c"));
-        AlphabeticChromosome anotherChromosomeSecondGen = new AlphabeticChromosome(List.of("d"));
-        List<Chromosome> firstGeneration = List.of(fittestChromosomeFirstGen, anotherChromosomeFirstGen);
-        List<Chromosome> secondGeneration = List.of(fittestChromosomeSecondGen, anotherChromosomeSecondGen);
-        Map<Chromosome, Double> firstGenerationWithFitnessScores = Map.of(
-            fittestChromosomeFirstGen, 100.0,
-            anotherChromosomeFirstGen, 1.0);
-        Map<Chromosome, Double> secondGenerationWithFitnessScores = Map.of(
-            fittestChromosomeSecondGen, 1000.0,
-            anotherChromosomeSecondGen, 10.0);
+        List<ChromosomeWithScore> firstGenerationWithScores = createGenerationWithScore();
+        List<ChromosomeWithScore> secondGenerationWithScores = createGenerationWithScore();
+
+        List<Chromosome> firstGeneration = createGenerationFrom(firstGenerationWithScores);
+        List<Chromosome> secondGeneration = createGenerationFrom(secondGenerationWithScores);
+
+        ChromosomeWithScore fittestChromosomeFirstGen = findFittestChromosome(firstGenerationWithScores);
+        ChromosomeWithScore fittestChromosomeSecondGen = findFittestChromosome(secondGenerationWithScores);
 
         when(populationInitializer.init(firstGeneration.size())).thenReturn(firstGeneration);
-        when(fitnessScoreCalculator.calc(firstGeneration)).thenReturn(firstGenerationWithFitnessScores);
-        when(fittestChromosomeFinder.find(firstGenerationWithFitnessScores)).thenReturn(fittestChromosomeFirstGen);
-        when(populationReproducer.reproduce(firstGenerationWithFitnessScores)).thenReturn(secondGeneration);
-        when(fitnessScoreCalculator.calc(secondGeneration)).thenReturn(secondGenerationWithFitnessScores);
-        when(fittestChromosomeFinder.find(secondGenerationWithFitnessScores)).thenReturn(fittestChromosomeSecondGen);
+        when(fitnessScoreCalculator.calc(firstGeneration)).thenReturn(firstGenerationWithScores);
+        when(fittestChromosomeFinder.find(firstGenerationWithScores)).thenReturn(fittestChromosomeFirstGen);
+        when(populationReproducer.reproduce(firstGenerationWithScores)).thenReturn(secondGeneration);
+        when(fitnessScoreCalculator.calc(secondGeneration)).thenReturn(secondGenerationWithScores);
+        when(fittestChromosomeFinder.find(secondGenerationWithScores)).thenReturn(fittestChromosomeSecondGen);
 
         assertThat(algorithm.execute(firstGeneration.size(), 2))
             .isEqualTo(fittestChromosomeSecondGen);

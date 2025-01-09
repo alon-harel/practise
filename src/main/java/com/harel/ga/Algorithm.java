@@ -3,7 +3,6 @@ package com.harel.ga;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;
-import java.util.Map;
 
 @Slf4j
 public class Algorithm {
@@ -22,33 +21,32 @@ public class Algorithm {
         this.populationReproducer = populationReproducer;
     }
 
-    public Chromosome execute(int populationSize,
-                              int generationCount) {
+    public ChromosomeWithScore execute(int populationSize,
+                                       int generationCount) {
         List<Chromosome> generation = populationInitializer.init(populationSize);
 
         return performEvolution(generationCount, generation);
     }
 
-    private Chromosome performEvolution(int generationCount,
-                                        List<Chromosome> generation) {
-        Chromosome fittestChromosome;
+    private ChromosomeWithScore performEvolution(int generationCount,
+                                                 List<Chromosome> generation) {
+        ChromosomeWithScore fittestChromosome;
         int generationNumber = 0;
         do {
-            Map<Chromosome, Double> chromosomeByFitnessScore = fitnessScoreCalculator.calc(generation);
+            List<ChromosomeWithScore> chromosomeByFitnessScore = fitnessScoreCalculator.calc(generation);
             generation = populationReproducer.reproduce(chromosomeByFitnessScore);
             fittestChromosome = fittestChromosomeFinder.find(chromosomeByFitnessScore);
 
             generationNumber++;
-            printBestChromosomeOfGeneration(fittestChromosome, chromosomeByFitnessScore.get(fittestChromosome), generationNumber);
+            printBestChromosomeOfGeneration(fittestChromosome, generationNumber);
         }
         while (generationNumber < generationCount);
         return fittestChromosome;
     }
 
-    private void printBestChromosomeOfGeneration(Chromosome chromosome,
-                                                 Double score,
+    private void printBestChromosomeOfGeneration(ChromosomeWithScore chromosome,
                                                  int generationNumber) {
-        log.info("generation number={}, fitness score={}, chromosome={}", generationNumber, score, chromosome);
+        log.info("generation number={}, fitness score={}, chromosome={}", generationNumber, chromosome.getScore(), chromosome.getChromosome());
     }
 }
     /*

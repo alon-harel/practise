@@ -1,7 +1,7 @@
 package com.harel.ga;
 
-import java.util.Map;
+import java.util.List;
 
 public interface FittestChromosomeFinder {
-    Chromosome find(Map<Chromosome, Double> chromosomeByFitnessScore);
+    ChromosomeWithScore find(List<ChromosomeWithScore> chromosomeWithScores);
 }

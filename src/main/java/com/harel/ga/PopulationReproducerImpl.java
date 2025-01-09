@@ -4,7 +4,6 @@ import org.apache.commons.lang3.tuple.Pair;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public class PopulationReproducerImpl implements PopulationReproducer {
     private final ChromosomeSelector chromosomeSelector;
@@ -20,11 +19,11 @@ public class PopulationReproducerImpl implements PopulationReproducer {
     }
 
     @Override
-    public List<Chromosome> reproduce(Map<Chromosome, Double> chromosomeByFitnessScore) {
-        List<Chromosome> newGeneration = new ArrayList<>(chromosomeByFitnessScore.size());
+    public List<Chromosome> reproduce(List<ChromosomeWithScore> generationWithFitnessScores) {
+        List<Chromosome> newGeneration = new ArrayList<>(generationWithFitnessScores.size());
 
-        for (int i = 0; i < chromosomeByFitnessScore.size() / 2; i++) {
-            Pair<Chromosome, Chromosome> offsprings = produceOffsprings(chromosomeByFitnessScore);
+        for (int i = 0; i < generationWithFitnessScores.size() / 2; i++) {
+            Pair<Chromosome, Chromosome> offsprings = produceOffsprings(generationWithFitnessScores);
             newGeneration.add(mutationPerformer.mutated(offsprings.getLeft()));
             newGeneration.add(mutationPerformer.mutated(offsprings.getRight()));
         }
@@ -32,9 +31,9 @@ public class PopulationReproducerImpl implements PopulationReproducer {
         return newGeneration;
     }
 
-    private Pair<Chromosome, Chromosome> produceOffsprings(Map<Chromosome, Double> chromosomeByFitnessScore) {
-        Chromosome firstParent = chromosomeSelector.select(chromosomeByFitnessScore);
-        Chromosome secondParent = chromosomeSelector.select(chromosomeByFitnessScore);
+    private Pair<Chromosome, Chromosome> produceOffsprings(List<ChromosomeWithScore> generationWithFitnessScores) {
+        Chromosome firstParent = chromosomeSelector.select(generationWithFitnessScores);
+        Chromosome secondParent = chromosomeSelector.select(generationWithFitnessScores);
 
         return crossoverPerformer.perform(firstParent, secondParent);
     }

@@ -1,8 +1,7 @@
 package com.harel.ga;
 
-import java.util.Collection;
-import java.util.Map;
+import java.util.List;
 
 public interface FitnessScoreCalculator {
-    Map<Chromosome, Double> calc(Collection<Chromosome> chromosomes);
+    List<ChromosomeWithScore> calc(List<Chromosome> generation);
 }

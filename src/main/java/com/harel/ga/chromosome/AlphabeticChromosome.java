@@ -3,6 +3,7 @@ package com.harel.ga.chromosome;
 import com.harel.ga.Chromosome;
 import lombok.Value;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Value
