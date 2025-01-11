@@ -1,5 +1,11 @@
-package com.harel.ga;
+package com.harel.ga.alg;
 
+import com.harel.ga.alg.Chromosome;
+import com.harel.ga.alg.ChromosomeSelector;
+import com.harel.ga.alg.ChromosomeWithScore;
+import com.harel.ga.alg.CrossoverPerformer;
+import com.harel.ga.alg.MutationPerformer;
+import com.harel.ga.alg.PopulationReproducerImpl;
 import org.apache.commons.lang3.tuple.Pair;
 import org.junit.Test;
 

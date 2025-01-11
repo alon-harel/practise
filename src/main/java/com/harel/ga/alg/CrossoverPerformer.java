@@ -1,4 +1,4 @@
-package com.harel.ga;
+package com.harel.ga.alg;
 
 import org.apache.commons.lang3.tuple.Pair;
 

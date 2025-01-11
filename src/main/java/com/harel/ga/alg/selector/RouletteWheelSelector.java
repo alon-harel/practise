@@ -1,8 +1,8 @@
-package com.harel.ga.selector;
+package com.harel.ga.alg.selector;
 
-import com.harel.ga.Chromosome;
-import com.harel.ga.ChromosomeSelector;
-import com.harel.ga.ChromosomeWithScore;
+import com.harel.ga.alg.Chromosome;
+import com.harel.ga.alg.ChromosomeSelector;
+import com.harel.ga.alg.ChromosomeWithScore;
 
 import java.util.List;
 import java.util.Random;

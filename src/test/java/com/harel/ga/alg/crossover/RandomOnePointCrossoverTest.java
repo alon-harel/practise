@@ -1,6 +1,6 @@
-package com.harel.ga.crossover;
+package com.harel.ga.alg.crossover;
 
-import com.harel.ga.Chromosome;
+import com.harel.ga.alg.Chromosome;
 import org.apache.commons.lang3.tuple.Pair;
 import org.junit.Test;
 

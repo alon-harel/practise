@@ -1,5 +1,12 @@
-package com.harel.ga;
+package com.harel.ga.alg;
 
+import com.harel.ga.alg.Algorithm;
+import com.harel.ga.alg.Chromosome;
+import com.harel.ga.alg.ChromosomeWithScore;
+import com.harel.ga.alg.FitnessScoreCalculator;
+import com.harel.ga.alg.FittestChromosomeFinder;
+import com.harel.ga.alg.PopulationInitializer;
+import com.harel.ga.alg.PopulationReproducer;
 import org.junit.Test;
 import org.junit.jupiter.api.BeforeEach;
 

@@ -1,6 +1,6 @@
-package com.harel.ga.mutation;
+package com.harel.ga.alg.mutation;
 
-import com.harel.ga.Chromosome;
+import com.harel.ga.alg.Chromosome;
 import org.junit.Test;
 
 import java.util.List;
@@ -8,7 +8,6 @@ import java.util.Random;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
 public class MutationPerformerImplTest {
     private final Random random = mock(Random.class);

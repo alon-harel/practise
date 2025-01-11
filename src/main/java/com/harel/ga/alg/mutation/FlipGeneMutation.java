@@ -1,6 +1,6 @@
-package com.harel.ga.mutation;
+package com.harel.ga.alg.mutation;
 
-import com.harel.ga.Chromosome;
+import com.harel.ga.alg.Chromosome;
 
 import java.util.Random;
 

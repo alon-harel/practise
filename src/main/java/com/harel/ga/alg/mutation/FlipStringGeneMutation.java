@@ -1,6 +1,6 @@
-package com.harel.ga.mutation;
+package com.harel.ga.alg.mutation;
 
-import com.harel.ga.Chromosome;
+import com.harel.ga.alg.Chromosome;
 
 import java.util.Random;
 
@@ -11,6 +11,7 @@ public class FlipStringGeneMutation extends FlipGeneMutation {
 
     @Override
     protected Chromosome flipGene(Chromosome chromosome, int genePosition) {
+        System.out.println("performing mutation");
         Chromosome mutatedChromosome = new Chromosome(chromosome);
         String asciiLetter = pickRandomAsciiLetter();
         mutatedChromosome.getGenes().set(genePosition, asciiLetter);
@@ -18,8 +19,8 @@ public class FlipStringGeneMutation extends FlipGeneMutation {
     }
 
     private String pickRandomAsciiLetter() {
-        int asciiFrom33To126 = random.nextInt(126 - 33 + 1) + 33;
-        char charValue = (char) asciiFrom33To126;
+        int asciiFrom32To126 = random.nextInt(126 - 32 + 1) + 32;
+        char charValue = (char) asciiFrom32To126;
         return Character.toString(charValue);
     }
 

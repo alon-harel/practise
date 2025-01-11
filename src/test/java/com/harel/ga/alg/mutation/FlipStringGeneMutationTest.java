@@ -1,6 +1,6 @@
-package com.harel.ga.mutation;
+package com.harel.ga.alg.mutation;
 
-import com.harel.ga.Chromosome;
+import com.harel.ga.alg.Chromosome;
 import org.junit.Test;
 
 import java.util.List;
@@ -26,7 +26,7 @@ public class FlipStringGeneMutationTest {
     }
 
     private void ensureToPickChar(Character character) {
-        when(random.nextInt(126 - 33 + 1)).thenReturn((int)character - 33);
+        when(random.nextInt(126 - 32 + 1)).thenReturn((int)character - 32);
     }
 
     private void ensureToPickGeneAtPosition(Chromosome chromosome, int selectedGenePosition) {

@@ -1,7 +1,7 @@
-package com.harel.ga.crossover;
+package com.harel.ga.alg.crossover;
 
-import com.harel.ga.Chromosome;
-import com.harel.ga.CrossoverPerformer;
+import com.harel.ga.alg.Chromosome;
+import com.harel.ga.alg.CrossoverPerformer;
 import org.apache.commons.lang3.tuple.Pair;
 
 import java.util.Random;
