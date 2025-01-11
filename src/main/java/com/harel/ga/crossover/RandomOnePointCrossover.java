@@ -4,33 +4,46 @@ import com.harel.ga.Chromosome;
 import com.harel.ga.CrossoverPerformer;
 import org.apache.commons.lang3.tuple.Pair;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Random;
 
 public class RandomOnePointCrossover implements CrossoverPerformer {
+
+    private final Random random;
+
+    public RandomOnePointCrossover(Random random) {
+        this.random = random;
+    }
 
     @Override
     public Pair<Chromosome, Chromosome> perform(Chromosome firstParent,
                                                 Chromosome secondParent) {
+        int crossoverPoint = pickRandomPoint(firstParent.getGenes().size());
+        if (crossoverPoint != 0) {
+            return replaceGenesFromCrossoverPoint(firstParent, secondParent, crossoverPoint);
+        }
+        return offspringsAreTheOriginalParent(firstParent, secondParent);
+    }
 
-        //Chromosome firstOffspring = new AlphabeticChromosome(List.of("d", "b", "c"));
-        //Chromosome secondOffspring = new AlphabeticChromosome(List.of("a", "e", "f"));
-   Chromosome firstOffspring = new Chromosome(firstParent);
-   Chromosome secondOffspring = new Chromosome(secondParent);
+    private Pair<Chromosome, Chromosome> offspringsAreTheOriginalParent(Chromosome firstParent, Chromosome secondParent) {
+        return Pair.of(new Chromosome(firstParent), new Chromosome(secondParent));
+    }
 
-        Object o = secondParent.getGenes().get(0);
-        firstOffspring.getGenes().set(0, o);
-
-        secondOffspring.getGenes().set(0, firstParent.getGenes().get(0));
-
- //firstOffspring.getGenes().set(0, secondParent.getGenes().get(0));
-
-//        List<Object> firstOffspringGenes = new ArrayList<>();
-//        List<Object> secondOffspringGenes = new ArrayList<>();
-//        firstOffspringGenes.add(secondParent.getGenes().get(0));
-//        for (int i = 1; i < firstParent.getGenes().size()) {
-//        }
+    private Pair<Chromosome, Chromosome> replaceGenesFromCrossoverPoint(Chromosome firstParent,
+                                                                        Chromosome secondParent,
+                                                                        int randomPoint) {
+        Chromosome firstOffspring = new Chromosome(firstParent);
+        Chromosome secondOffspring = new Chromosome(secondParent);
+        for (int i = 0; i < firstParent.getGenes().size(); i++) {
+            if (i >= randomPoint) {
+                firstOffspring.getGenes().set(i, secondParent.getGenes().get(i));
+                secondOffspring.getGenes().set(i, firstParent.getGenes().get(i));
+            }
+        }
 
         return Pair.of(firstOffspring, secondOffspring);
+    }
+
+    private int pickRandomPoint(int genesCount) {
+        return random.nextInt(genesCount);
     }
 }

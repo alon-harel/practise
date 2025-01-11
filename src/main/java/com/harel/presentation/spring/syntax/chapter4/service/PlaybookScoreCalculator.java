@@ -34,7 +34,6 @@ public class PlaybookScoreCalculator {
         }
 
         public PlaybookScoreCalculator notAnnotatedAsBean(PlaybookDao playbookDao) {
-            System.out.println("This message will not be shown");
             return new PlaybookScoreCalculator(playbookDao);
         }
 
