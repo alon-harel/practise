@@ -24,8 +24,8 @@ public class PopulationReproducerImpl implements PopulationReproducer {
 
         for (int i = 0; i < generationWithFitnessScores.size() / 2; i++) {
             Pair<Chromosome, Chromosome> offsprings = produceOffsprings(generationWithFitnessScores);
-            newGeneration.add(mutationPerformer.mutated(offsprings.getLeft()));
-            newGeneration.add(mutationPerformer.mutated(offsprings.getRight()));
+            newGeneration.add(mutationPerformer.mutate(offsprings.getLeft()));
+            newGeneration.add(mutationPerformer.mutate(offsprings.getRight()));
         }
 
         return newGeneration;

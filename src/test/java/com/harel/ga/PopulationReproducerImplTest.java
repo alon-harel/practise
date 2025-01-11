@@ -32,8 +32,8 @@ public class PopulationReproducerImplTest {
             .thenReturn(firstParent.getChromosome())
             .thenReturn(secondParent.getChromosome());
         when(crossoverPerformer.perform(firstParent.getChromosome(), secondParent.getChromosome())).thenReturn(Pair.of(firstOffspring, secondOffspring));
-        when(mutationPerformer.mutated(firstOffspring)).thenReturn(firstMutatedOffspring);
-        when(mutationPerformer.mutated(secondOffspring)).thenReturn(secondMutatedOffspring);
+        when(mutationPerformer.mutate(firstOffspring)).thenReturn(firstMutatedOffspring);
+        when(mutationPerformer.mutate(secondOffspring)).thenReturn(secondMutatedOffspring);
 
         assertThat(populationReproducer.reproduce(generation))
             .containsExactlyInAnyOrder(firstMutatedOffspring, secondMutatedOffspring);
