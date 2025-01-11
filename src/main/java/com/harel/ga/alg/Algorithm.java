@@ -5,14 +5,14 @@ import lombok.extern.slf4j.Slf4j;
 import java.util.List;
 
 @Slf4j
-public class Algorithm {
-    private final PopulationInitializer populationInitializer;
-    private final FitnessScoreCalculator fitnessScoreCalculator;
+public class Algorithm<CONTEXT extends AlgorithmContext> {
+    private final PopulationInitializer<CONTEXT> populationInitializer;
+    private final FitnessScoreCalculator<CONTEXT> fitnessScoreCalculator;
     private final FittestChromosomeFinder fittestChromosomeFinder;
     private final PopulationReproducer populationReproducer;
 
-    public Algorithm(PopulationInitializer populationInitializer,
-                     FitnessScoreCalculator fitnessScoreCalculator,
+    public Algorithm(PopulationInitializer<CONTEXT> populationInitializer,
+                     FitnessScoreCalculator<CONTEXT> fitnessScoreCalculator,
                      FittestChromosomeFinder fittestChromosomeFinder,
                      PopulationReproducer populationReproducer) {
         this.populationInitializer = populationInitializer;
@@ -21,19 +21,21 @@ public class Algorithm {
         this.populationReproducer = populationReproducer;
     }
 
-    public ChromosomeWithScore execute(int populationSize,
+    public ChromosomeWithScore execute(CONTEXT algorithmContext,
+                                       int populationSize,
                                        int generationCount) {
-        List<Chromosome> generation = populationInitializer.init(populationSize);
+        List<Chromosome> generation = populationInitializer.init(algorithmContext, populationSize);
 
-        return performEvolution(generationCount, generation);
+        return performEvolution(algorithmContext, generationCount, generation);
     }
 
-    private ChromosomeWithScore performEvolution(int generationCount,
+    private ChromosomeWithScore performEvolution(CONTEXT algorithmContext,
+                                                 int generationCount,
                                                  List<Chromosome> generation) {
         ChromosomeWithScore fittestChromosome;
         int generationNumber = 0;
         do {
-            List<ChromosomeWithScore> chromosomeByFitnessScore = fitnessScoreCalculator.calc(generation);
+            List<ChromosomeWithScore> chromosomeByFitnessScore = fitnessScoreCalculator.calc(algorithmContext, generation);
             generation = populationReproducer.reproduce(chromosomeByFitnessScore);
             fittestChromosome = fittestChromosomeFinder.find(chromosomeByFitnessScore);
 
