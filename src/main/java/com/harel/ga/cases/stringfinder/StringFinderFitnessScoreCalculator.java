@@ -28,7 +28,10 @@ public class StringFinderFitnessScoreCalculator implements FitnessScoreCalculato
     private double calcScore(StringFinderContext context, Chromosome chromosome) {
         double score = 0.0;
         for (int position = 0; position < context.getStringToCalc().length(); position++) {
-            score += distanceBetweenContextToGeneAtPosition(context, chromosome, position);
+            if (charValueAtContext(context, position) != charValueAtGene(chromosome, position)) {
+                score += 1.0;
+            }
+           // score += distanceBetweenContextToGeneAtPosition(context, chromosome, position);
         }
         return score;
     }

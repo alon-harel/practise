@@ -67,7 +67,5 @@ public class RouletteWheelSelectorTest {
 
         when(random.nextDouble()).thenReturn(fixedPoint / scoresSum);
         assertThat(rouletteWheelSelector.select(generation)).isEqualTo(expectedPicked);
-
     }
-
 }
