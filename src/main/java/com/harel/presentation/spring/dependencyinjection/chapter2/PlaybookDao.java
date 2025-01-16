@@ -15,7 +15,7 @@ public class PlaybookDao {
              PreparedStatement preparedStatement = connection.prepareStatement(query);
              ResultSet resultSet = preparedStatement.executeQuery()) {
 
-            Playbook playbook = new Playbook();
+            Playbook playbook;
 
             // Row mapper-like approach
             while (resultSet.next()) {

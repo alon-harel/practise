@@ -6,6 +6,7 @@ import com.harel.presentation.spring.syntax.chapter4.dal.PlaybookDaoConfig;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
+import org.springframework.context.annotation.Primary;
 
 
 public class PlaybookScoreCalculator {
@@ -38,6 +39,7 @@ public class PlaybookScoreCalculator {
         }
 
         /*
+        0, What happens if there is no @Bean annotation?
         1. What happens if we put @Bean on notAnnotatedAsBean?
         2. @Primary - good for tests
         3. Bean qualifier - read or write database dao
