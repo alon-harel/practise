@@ -7,7 +7,7 @@ import com.harel.ga.alg.ChromosomeWithScore;
 import java.util.List;
 import java.util.Random;
 
-public class RouletteWheelSelectorBase implements ChromosomeSelector {
+public abstract class RouletteWheelSelectorBase implements ChromosomeSelector {
     private final Random random;
 
     public RouletteWheelSelectorBase(Random random) {
@@ -20,11 +20,12 @@ public class RouletteWheelSelectorBase implements ChromosomeSelector {
         return pickUponFixedPoint(chromosomeWithScores, fixedPoint);
     }
 
-    private Chromosome pickUponFixedPoint(List<ChromosomeWithScore> chromosomeWithScores, double fixedPoint) {
+    private Chromosome pickUponFixedPoint(List<ChromosomeWithScore> chromosomeWithScores,
+                                          double fixedPoint) {
         Chromosome picked = null;
         double topRange = 0.0;
         for (ChromosomeWithScore chromosomeWithScore : chromosomeWithScores) {
-            topRange += chromosomeWithScore.getScore();
+            topRange += chromosomeAdjustedScore(chromosomeWithScore);
             if (topRange >= fixedPoint) {
                 picked = chromosomeWithScore.getChromosome();
                 break;
@@ -34,6 +35,8 @@ public class RouletteWheelSelectorBase implements ChromosomeSelector {
         return picked;
     }
 
+    protected abstract double chromosomeAdjustedScore(ChromosomeWithScore chromosomeWithScore);
+
     private double calcFixedPointUponGenerationScoresSum(List<ChromosomeWithScore> chromosomeWithScores) {
         double scoresSum = calcGenerationScoresSum(chromosomeWithScores);
         return random.nextDouble() * scoresSum;
@@ -41,7 +44,7 @@ public class RouletteWheelSelectorBase implements ChromosomeSelector {
 
     private double calcGenerationScoresSum(List<ChromosomeWithScore> chromosomeWithScores) {
         return chromosomeWithScores.stream()
-            .mapToDouble(ChromosomeWithScore::getScore)
+            .mapToDouble(this::chromosomeAdjustedScore)
             .sum();
     }
 }
