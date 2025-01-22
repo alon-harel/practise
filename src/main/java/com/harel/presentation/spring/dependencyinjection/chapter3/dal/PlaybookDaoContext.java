@@ -1,11 +1,11 @@
 package com.harel.presentation.spring.dependencyinjection.chapter3.dal;
 
-public class PlaybookDaoFactory {
+public class PlaybookDaoContext {
     private final static PlaybookDao pgPlaybookDao = new PgPlaybookDao();
     private final static PlaybookDao pgDemoPlaybookDao = new PgDemoPlaybookDao();
     private final static PlaybookDao h2PlaybookDao = new H2PlaybookDao();
 
-    public static PlaybookDao provide(String profile) {
+    public static PlaybookDao getDaoBean(String profile) {
         switch (profile) {
             case ("prod"):
                 return pgPlaybookDao;
