@@ -5,7 +5,6 @@ import com.harel.ga.alg.ChromosomeSelector;
 import com.harel.ga.alg.CrossoverPerformer;
 import com.harel.ga.alg.FitnessScoreCalculator;
 import com.harel.ga.alg.Mutator;
-import com.harel.ga.alg.PopulationInitializer;
 import com.harel.ga.alg.PopulationReproducer;
 import com.harel.ga.alg.PopulationReproducerImpl;
 import com.harel.ga.alg.crossover.RandomOnePointCrossover;
@@ -20,7 +19,7 @@ public class App {
         String stringToMatch = "I study @ home";
 
         Random random = new Random();
-        PopulationInitializer populationInitializer = new PopulationOfStringInitializer(stringToMatch.length(), random);
+        PopulationOfStringInitializer populationInitializer = new PopulationOfStringInitializer(stringToMatch.length(), random);
         FitnessScoreCalculator fitnessScoreCalculator = new StringFinderFitnessScoreCalculator(stringToMatch);
 
         ChromosomeSelector chromosomeSelector = new RouletteWheelSelector(random);
@@ -30,9 +29,8 @@ public class App {
             crossoverPerformer,
             mutator);
 
-        Algorithm algorithm = new Algorithm(populationInitializer,
-            fitnessScoreCalculator, populationReproducer);
+        Algorithm algorithm = new Algorithm(fitnessScoreCalculator, populationReproducer);
 
-        algorithm.execute(500, 3500);
+        algorithm.execute(populationInitializer.init(500), 3500);
     }
 }

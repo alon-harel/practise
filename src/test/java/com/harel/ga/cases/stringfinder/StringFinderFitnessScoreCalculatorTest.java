@@ -19,7 +19,7 @@ public class StringFinderFitnessScoreCalculatorTest {
 
         assertThat(calculator.calc(List.of(chromosome)))
             .containsExactlyInAnyOrder(
-                new Individual(chromosome, 500.0));
+                new Individual(chromosome, 50.0));
     }
 
     @Test

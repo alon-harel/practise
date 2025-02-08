@@ -33,7 +33,7 @@ public class StringFinderFitnessScoreCalculator implements FitnessScoreCalculato
        if (score == 0.0) {
            return Double.MAX_VALUE;
        }
-       return (1 / score) * 1000;
+       return (1 / score) * 100;
     }
 
     private double findNumberOfDiverseLetters(Chromosome chromosome) {

@@ -1,13 +1,12 @@
 package com.harel.ga.cases.stringfinder;
 
 import com.harel.ga.alg.Chromosome;
-import com.harel.ga.alg.PopulationInitializer;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public class PopulationOfStringInitializer implements PopulationInitializer {
+public class PopulationOfStringInitializer {
     private final int stringToMatchSize;
     private final Random random;
 
@@ -17,7 +16,6 @@ public class PopulationOfStringInitializer implements PopulationInitializer {
         this.random = random;
     }
 
-    @Override
     public List<Chromosome> init(int populationSize) {
         List<Chromosome> generation = new ArrayList<>(populationSize);
 

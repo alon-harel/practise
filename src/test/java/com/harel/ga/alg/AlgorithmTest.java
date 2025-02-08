@@ -15,17 +15,15 @@ import static org.mockito.Mockito.reset;
 import static org.mockito.Mockito.when;
 
 public class AlgorithmTest {
-    private final PopulationInitializer populationInitializer = mock(PopulationInitializer.class);
     private final FitnessScoreCalculator fitnessScoreCalculator = mock(FitnessScoreCalculator.class);
     private final PopulationReproducer populationReproducer = mock(PopulationReproducer.class);
 
-    private final Algorithm algorithm = new Algorithm(populationInitializer,
-        fitnessScoreCalculator,
+    private final Algorithm algorithm = new Algorithm(fitnessScoreCalculator,
         populationReproducer);
 
     @BeforeEach
     public void setup() {
-        reset(populationInitializer, fitnessScoreCalculator, populationReproducer);
+        reset(fitnessScoreCalculator, populationReproducer);
     }
 
     @Test
@@ -34,9 +32,8 @@ public class AlgorithmTest {
         List<Chromosome> generation = createGenerationFrom(generationWithScores);
         Individual fittestChromosome = findFittestChromosome(generationWithScores);
 
-        when(populationInitializer.init(generation.size())).thenReturn(generation);
         when(fitnessScoreCalculator.calc(generation)).thenReturn(generationWithScores);
-        assertThat(algorithm.execute(generation.size(), 1)).isEqualTo(fittestChromosome);
+        assertThat(algorithm.execute(generation, 1)).isEqualTo(fittestChromosome);
     }
 
     private Individual findFittestChromosome(List<Individual> generationWithScores) {
@@ -69,12 +66,11 @@ public class AlgorithmTest {
         Individual fittestChromosomeFirstGen = findFittestChromosome(firstGenerationWithScores);
         Individual fittestChromosomeSecondGen = findFittestChromosome(secondGenerationWithScores);
 
-        when(populationInitializer.init(firstGeneration.size())).thenReturn(firstGeneration);
         when(fitnessScoreCalculator.calc(firstGeneration)).thenReturn(firstGenerationWithScores);
         when(populationReproducer.reproduce(firstGenerationWithScores)).thenReturn(secondGeneration);
         when(fitnessScoreCalculator.calc(secondGeneration)).thenReturn(secondGenerationWithScores);
 
-        assertThat(algorithm.execute(firstGeneration.size(), 2))
+        assertThat(algorithm.execute(firstGeneration, 2))
             .isEqualTo(fittestChromosomeSecondGen);
     }
 }

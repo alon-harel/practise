@@ -7,23 +7,19 @@ import java.util.List;
 
 @Slf4j
 public class Algorithm {
-    private final PopulationInitializer populationInitializer;
     private final FitnessScoreCalculator fitnessScoreCalculator;
     private final PopulationReproducer populationReproducer;
 
-    public Algorithm(PopulationInitializer populationInitializer,
-                     FitnessScoreCalculator fitnessScoreCalculator,
+    public Algorithm(FitnessScoreCalculator fitnessScoreCalculator,
                      PopulationReproducer populationReproducer) {
-        this.populationInitializer = populationInitializer;
         this.fitnessScoreCalculator = fitnessScoreCalculator;
         this.populationReproducer = populationReproducer;
     }
 
-    public Individual execute(int populationSize,
+    public Individual execute(List<Chromosome> population,
                               int generationCount) {
-        List<Chromosome> generation = populationInitializer.init(populationSize);
 
-        return performEvolution(generationCount, generation);
+        return performEvolution(generationCount, population);
     }
 
     private Individual performEvolution(int generationCount,
@@ -31,9 +27,9 @@ public class Algorithm {
         Individual fittestChromosome;
         int generationNumber = 0;
         do {
-            List<Individual> chromosomeByFitnessScore = fitnessScoreCalculator.calc(generation);
-            generation = populationReproducer.reproduce(chromosomeByFitnessScore);
-            fittestChromosome = findFittestChromosome(chromosomeByFitnessScore);
+            List<Individual> population = fitnessScoreCalculator.calc(generation);
+            generation = populationReproducer.reproduce(population);
+            fittestChromosome = findFittestChromosome(population);
 
             generationNumber++;
             printBestChromosomeOfGeneration(fittestChromosome, generationNumber);
