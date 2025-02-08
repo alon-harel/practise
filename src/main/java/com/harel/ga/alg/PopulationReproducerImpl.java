@@ -8,14 +8,14 @@ import java.util.List;
 public class PopulationReproducerImpl implements PopulationReproducer {
     private final ChromosomeSelector chromosomeSelector;
     private final CrossoverPerformer crossoverPerformer;
-    private final MutationPerformer mutationPerformer;
+    private final Mutator mutator;
 
     public PopulationReproducerImpl(ChromosomeSelector chromosomeSelector,
                                     CrossoverPerformer crossoverPerformer,
-                                    MutationPerformer mutationPerformer) {
+                                    Mutator mutator) {
         this.chromosomeSelector = chromosomeSelector;
         this.crossoverPerformer = crossoverPerformer;
-        this.mutationPerformer = mutationPerformer;
+        this.mutator = mutator;
     }
 
     @Override
@@ -24,8 +24,8 @@ public class PopulationReproducerImpl implements PopulationReproducer {
 
         for (int i = 0; i < generationWithFitnessScores.size() / 2; i++) {
             Pair<Chromosome, Chromosome> offsprings = produceOffsprings(generationWithFitnessScores);
-            newGeneration.add(mutationPerformer.mutate(offsprings.getLeft()));
-            newGeneration.add(mutationPerformer.mutate(offsprings.getRight()));
+            newGeneration.add(mutator.mutate(offsprings.getLeft()));
+            newGeneration.add(mutator.mutate(offsprings.getRight()));
         }
 
         return newGeneration;

@@ -24,16 +24,16 @@ public class PopulationReproducerImplTest {
 
         ChromosomeSelector chromosomeSelector = mock(ChromosomeSelector.class);
         CrossoverPerformer crossoverPerformer = mock(CrossoverPerformer.class);
-        MutationPerformer mutationPerformer = mock(MutationPerformer.class);
+        Mutator mutator = mock(Mutator.class);
         PopulationReproducerImpl populationReproducer = new PopulationReproducerImpl(chromosomeSelector,
-            crossoverPerformer, mutationPerformer);
+            crossoverPerformer, mutator);
 
         when(chromosomeSelector.select(generation))
             .thenReturn(firstParent.getChromosome())
             .thenReturn(secondParent.getChromosome());
         when(crossoverPerformer.perform(firstParent.getChromosome(), secondParent.getChromosome())).thenReturn(Pair.of(firstOffspring, secondOffspring));
-        when(mutationPerformer.mutate(firstOffspring)).thenReturn(firstMutatedOffspring);
-        when(mutationPerformer.mutate(secondOffspring)).thenReturn(secondMutatedOffspring);
+        when(mutator.mutate(firstOffspring)).thenReturn(firstMutatedOffspring);
+        when(mutator.mutate(secondOffspring)).thenReturn(secondMutatedOffspring);
 
         assertThat(populationReproducer.reproduce(generation))
             .containsExactlyInAnyOrder(firstMutatedOffspring, secondMutatedOffspring);

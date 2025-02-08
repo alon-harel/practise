@@ -1,15 +1,15 @@
 package com.harel.ga.alg.mutation;
 
 import com.harel.ga.alg.Chromosome;
-import com.harel.ga.alg.MutationPerformer;
+import com.harel.ga.alg.Mutator;
 
 import java.util.Random;
 
-public abstract class MutationPerformerImpl implements MutationPerformer {
+public abstract class MutatorImpl implements Mutator {
     protected final Random random;
     private final double mutateChances;
 
-    public MutationPerformerImpl(Random random, double mutateChances) {
+    public MutatorImpl(Random random, double mutateChances) {
         this.random = random;
         this.mutateChances = mutateChances;
     }

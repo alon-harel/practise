@@ -4,7 +4,7 @@ import com.harel.ga.alg.Chromosome;
 
 import java.util.Random;
 
-public abstract class FlipGeneMutation extends MutationPerformerImpl {
+public abstract class FlipGeneMutation extends MutatorImpl {
     public FlipGeneMutation(Random random, double mutateChances) {
         super(random, mutateChances);
     }

@@ -1,5 +1,5 @@
 package com.harel.ga.alg;
 
-public interface MutationPerformer {
+public interface Mutator {
     Chromosome mutate(Chromosome chromosome);
 }
