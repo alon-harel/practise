@@ -21,11 +21,19 @@ public class StringFinderFitnessScoreCalculator implements FitnessScoreCalculato
     }
 
     private ChromosomeWithScore createChromosomeWithScore(StringFinderContext context, Chromosome chromosome) {
-        double score = calcScore(context, chromosome);
+        double score = findNumberOfDiverseLetters(context, chromosome);
+        score = normalize(score);
         return new ChromosomeWithScore(new Chromosome(chromosome), score);
     }
 
-    private double calcScore(StringFinderContext context, Chromosome chromosome) {
+    private double normalize(double score) {
+       if (score == 0.0) {
+           return Double.MAX_VALUE;
+       }
+       return (1 / score) * 1000;
+    }
+
+    private double findNumberOfDiverseLetters(StringFinderContext context, Chromosome chromosome) {
         double score = 0.0;
         for (int position = 0; position < context.getStringToCalc().length(); position++) {
             if (charValueAtContext(context, position) != charValueAtGene(chromosome, position)) {

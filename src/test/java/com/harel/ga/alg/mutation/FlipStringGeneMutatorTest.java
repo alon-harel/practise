@@ -10,9 +10,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-public class FlipStringGeneMutationTest {
+public class FlipStringGeneMutatorTest {
     private final Random random = mock(Random.class);
-    private final FlipStringGeneMutation flipStringGeneMutation = new FlipStringGeneMutation(random, 1);
+    private final FlipStringGeneMutator flipStringGeneMutator = new FlipStringGeneMutator(random, 1);
 
     @Test
     public void flipStringGeneAtRandomPickedLocation() {
@@ -22,7 +22,7 @@ public class FlipStringGeneMutationTest {
         ensureToPickGeneAtPosition(chromosome, 1);
         ensureToPickChar('!');
 
-        assertThat(flipStringGeneMutation.mutate(chromosome)).isEqualTo(new Chromosome(List.of("a", "!")));
+        assertThat(flipStringGeneMutator.mutate(chromosome)).isEqualTo(new Chromosome(List.of("a", "!")));
     }
 
     private void ensureToPickChar(Character character) {

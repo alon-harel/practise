@@ -42,7 +42,7 @@ public class Algorithm<CONTEXT extends AlgorithmContext> {
             generationNumber++;
             printBestChromosomeOfGeneration(fittestChromosome, generationNumber);
         }
-        while (generationNumber < generationCount && fittestChromosome.getScore() != 0.0);
+        while (generationNumber < generationCount && fittestChromosome.getScore() != Double.MAX_VALUE);
         return fittestChromosome;
     }
 

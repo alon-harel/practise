@@ -10,9 +10,11 @@ import com.harel.ga.alg.PopulationInitializer;
 import com.harel.ga.alg.PopulationReproducer;
 import com.harel.ga.alg.PopulationReproducerImpl;
 import com.harel.ga.alg.crossover.RandomOnePointCrossover;
+import com.harel.ga.alg.fittestfinder.HighFittestScoreFinder;
 import com.harel.ga.alg.fittestfinder.LowScoreAsFittest;
-import com.harel.ga.alg.mutation.FlipStringGeneMutation;
+import com.harel.ga.alg.mutation.FlipStringGeneMutator;
 import com.harel.ga.alg.selector.LowestScoreRouletteWheelSelector;
+import com.harel.ga.alg.selector.RouletteWheelSelector;
 
 import java.util.Random;
 
@@ -24,11 +26,11 @@ public class App {
         Random random = new Random();
         PopulationInitializer<StringFinderContext> populationInitializer = new PopulationOfStringInitializer(random);
         FitnessScoreCalculator<StringFinderContext> fitnessScoreCalculator = new StringFinderFitnessScoreCalculator();
-        FittestChromosomeFinder fittestChromosomeFinder = new LowScoreAsFittest();
+        FittestChromosomeFinder fittestChromosomeFinder = new HighFittestScoreFinder();
 
-        ChromosomeSelector chromosomeSelector = new LowestScoreRouletteWheelSelector(random);
+        ChromosomeSelector chromosomeSelector = new RouletteWheelSelector(random);
         CrossoverPerformer crossoverPerformer = new RandomOnePointCrossover(random);
-        Mutator mutator = new FlipStringGeneMutation(random, 0.005);
+        Mutator mutator = new FlipStringGeneMutator(random, 0.005);
         PopulationReproducer populationReproducer = new PopulationReproducerImpl(chromosomeSelector,
             crossoverPerformer,
             mutator);

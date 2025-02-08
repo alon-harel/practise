@@ -4,8 +4,8 @@ import com.harel.ga.alg.Chromosome;
 
 import java.util.Random;
 
-public class FlipStringGeneMutation extends FlipGeneMutation {
-    public FlipStringGeneMutation(Random random, double mutateChances) {
+public class FlipStringGeneMutator extends FlipGeneMutation {
+    public FlipStringGeneMutator(Random random, double mutateChances) {
         super(random, mutateChances);
     }
 
