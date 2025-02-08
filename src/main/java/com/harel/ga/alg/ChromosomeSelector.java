@@ -4,5 +4,5 @@ import java.util.List;
 
 
 public interface ChromosomeSelector {
-    Chromosome select(List<ChromosomeWithScore> generationWithFitnessScores);
+    Chromosome select(List<Individual> generationWithFitnessScores);
 }

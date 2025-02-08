@@ -30,44 +30,44 @@ public class AlgorithmTest {
 
     @Test
     public void returnFittestChromosome_whenThereIsOnlyOneGeneration() {
-        List<ChromosomeWithScore> generationWithScores = createGenerationWithScore();
+        List<Individual> generationWithScores = createGenerationWithScore();
         List<Chromosome> generation = createGenerationFrom(generationWithScores);
-        ChromosomeWithScore fittestChromosome = findFittestChromosome(generationWithScores);
+        Individual fittestChromosome = findFittestChromosome(generationWithScores);
 
         when(populationInitializer.init(generation.size())).thenReturn(generation);
         when(fitnessScoreCalculator.calc(generation)).thenReturn(generationWithScores);
         assertThat(algorithm.execute(generation.size(), 1)).isEqualTo(fittestChromosome);
     }
 
-    private ChromosomeWithScore findFittestChromosome(List<ChromosomeWithScore> generationWithScores) {
+    private Individual findFittestChromosome(List<Individual> generationWithScores) {
         return generationWithScores.stream()
-            .max(Comparator.comparingDouble(ChromosomeWithScore::getScore))
+            .max(Comparator.comparingDouble(Individual::getScore))
             .orElseThrow(() -> new RuntimeException("failed to find the max score"));
     }
 
-    private List<Chromosome> createGenerationFrom(List<ChromosomeWithScore> generationWithScores) {
+    private List<Chromosome> createGenerationFrom(List<Individual> generationWithScores) {
         return generationWithScores.stream()
-            .map(ChromosomeWithScore::getChromosome)
+            .map(Individual::getChromosome)
             .collect(Collectors.toList());
     }
 
-    private List<ChromosomeWithScore> createGenerationWithScore() {
-        ChromosomeWithScore chromosome1 = new ChromosomeWithScore(new Chromosome(List.of(UUID.randomUUID().toString())), new Random().nextDouble());
-        ChromosomeWithScore chromosome2 = new ChromosomeWithScore(new Chromosome(List.of(UUID.randomUUID().toString())), new Random().nextDouble());
+    private List<Individual> createGenerationWithScore() {
+        Individual chromosome1 = new Individual(new Chromosome(List.of(UUID.randomUUID().toString())), new Random().nextDouble());
+        Individual chromosome2 = new Individual(new Chromosome(List.of(UUID.randomUUID().toString())), new Random().nextDouble());
 
         return List.of(chromosome1, chromosome2);
     }
 
     @Test
     public void returnFittestChromosome_fromSecondGeneration() {
-        List<ChromosomeWithScore> firstGenerationWithScores = createGenerationWithScore();
-        List<ChromosomeWithScore> secondGenerationWithScores = createGenerationWithScore();
+        List<Individual> firstGenerationWithScores = createGenerationWithScore();
+        List<Individual> secondGenerationWithScores = createGenerationWithScore();
 
         List<Chromosome> firstGeneration = createGenerationFrom(firstGenerationWithScores);
         List<Chromosome> secondGeneration = createGenerationFrom(secondGenerationWithScores);
 
-        ChromosomeWithScore fittestChromosomeFirstGen = findFittestChromosome(firstGenerationWithScores);
-        ChromosomeWithScore fittestChromosomeSecondGen = findFittestChromosome(secondGenerationWithScores);
+        Individual fittestChromosomeFirstGen = findFittestChromosome(firstGenerationWithScores);
+        Individual fittestChromosomeSecondGen = findFittestChromosome(secondGenerationWithScores);
 
         when(populationInitializer.init(firstGeneration.size())).thenReturn(firstGeneration);
         when(fitnessScoreCalculator.calc(firstGeneration)).thenReturn(firstGenerationWithScores);

@@ -1,7 +1,7 @@
 package com.harel.ga.cases.stringfinder;
 
 import com.harel.ga.alg.Chromosome;
-import com.harel.ga.alg.ChromosomeWithScore;
+import com.harel.ga.alg.Individual;
 import com.harel.ga.alg.FitnessScoreCalculator;
 import lombok.Value;
 
@@ -15,18 +15,18 @@ public class StringFinderFitnessScoreCalculator implements FitnessScoreCalculato
     String stringToMatch;
 
     @Override
-    public List<ChromosomeWithScore> calc(List<Chromosome> generation) {
-        List<ChromosomeWithScore> result = new ArrayList<>(generation.size());
+    public List<Individual> calc(List<Chromosome> generation) {
+        List<Individual> result = new ArrayList<>(generation.size());
         for (Chromosome chromosome : generation) {
             result.add(createChromosomeWithScore(chromosome));
         }
         return result;
     }
 
-    private ChromosomeWithScore createChromosomeWithScore(Chromosome chromosome) {
+    private Individual createChromosomeWithScore(Chromosome chromosome) {
         double score = findNumberOfDiverseLetters(chromosome);
         score = normalize(score);
-        return new ChromosomeWithScore(new Chromosome(chromosome), score);
+        return new Individual(new Chromosome(chromosome), score);
     }
 
     private double normalize(double score) {

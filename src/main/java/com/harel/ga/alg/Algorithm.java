@@ -19,19 +19,19 @@ public class Algorithm {
         this.populationReproducer = populationReproducer;
     }
 
-    public ChromosomeWithScore execute(int populationSize,
-                                       int generationCount) {
+    public Individual execute(int populationSize,
+                              int generationCount) {
         List<Chromosome> generation = populationInitializer.init(populationSize);
 
         return performEvolution(generationCount, generation);
     }
 
-    private ChromosomeWithScore performEvolution(int generationCount,
-                                                 List<Chromosome> generation) {
-        ChromosomeWithScore fittestChromosome;
+    private Individual performEvolution(int generationCount,
+                                        List<Chromosome> generation) {
+        Individual fittestChromosome;
         int generationNumber = 0;
         do {
-            List<ChromosomeWithScore> chromosomeByFitnessScore = fitnessScoreCalculator.calc(generation);
+            List<Individual> chromosomeByFitnessScore = fitnessScoreCalculator.calc(generation);
             generation = populationReproducer.reproduce(chromosomeByFitnessScore);
             fittestChromosome = findFittestChromosome(chromosomeByFitnessScore);
 
@@ -42,14 +42,14 @@ public class Algorithm {
         return fittestChromosome;
     }
 
-    private ChromosomeWithScore findFittestChromosome(List<ChromosomeWithScore> chromosomeWithScores) {
-        return chromosomeWithScores.stream()
-            .max(Comparator.comparingDouble(ChromosomeWithScore::getScore))
+    private Individual findFittestChromosome(List<Individual> individuals) {
+        return individuals.stream()
+            .max(Comparator.comparingDouble(Individual::getScore))
             .orElseThrow(() -> new IllegalArgumentException("generation is empty."));
 
     }
 
-    private void printBestChromosomeOfGeneration(ChromosomeWithScore chromosome,
+    private void printBestChromosomeOfGeneration(Individual chromosome,
                                                  int generationNumber) {
         log.info("generation number={}, fitness score={}, chromosome={}", generationNumber, chromosome.getScore(), chromosome.getChromosome());
     }

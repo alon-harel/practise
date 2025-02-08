@@ -2,7 +2,7 @@ package com.harel.ga.alg.selector;
 
 import com.harel.ga.alg.Chromosome;
 import com.harel.ga.alg.ChromosomeSelector;
-import com.harel.ga.alg.ChromosomeWithScore;
+import com.harel.ga.alg.Individual;
 
 import java.util.List;
 import java.util.Random;
@@ -15,19 +15,19 @@ public abstract class RouletteWheelSelectorBase implements ChromosomeSelector {
     }
 
     @Override
-    public Chromosome select(List<ChromosomeWithScore> chromosomeWithScores) {
-        double fixedPoint = calcFixedPointUponGenerationScoresSum(chromosomeWithScores);
-        return pickUponFixedPoint(chromosomeWithScores, fixedPoint);
+    public Chromosome select(List<Individual> individuals) {
+        double fixedPoint = calcFixedPointUponGenerationScoresSum(individuals);
+        return pickUponFixedPoint(individuals, fixedPoint);
     }
 
-    private Chromosome pickUponFixedPoint(List<ChromosomeWithScore> chromosomeWithScores,
+    private Chromosome pickUponFixedPoint(List<Individual> individuals,
                                           double fixedPoint) {
         Chromosome picked = null;
         double topRange = 0.0;
-        for (ChromosomeWithScore chromosomeWithScore : chromosomeWithScores) {
-            topRange += chromosomeAdjustedScore(chromosomeWithScore);
+        for (Individual individual : individuals) {
+            topRange += chromosomeAdjustedScore(individual);
             if (topRange >= fixedPoint) {
-                picked = chromosomeWithScore.getChromosome();
+                picked = individual.getChromosome();
                 break;
             }
         }
@@ -35,15 +35,15 @@ public abstract class RouletteWheelSelectorBase implements ChromosomeSelector {
         return picked;
     }
 
-    protected abstract double chromosomeAdjustedScore(ChromosomeWithScore chromosomeWithScore);
+    protected abstract double chromosomeAdjustedScore(Individual individual);
 
-    private double calcFixedPointUponGenerationScoresSum(List<ChromosomeWithScore> chromosomeWithScores) {
-        double scoresSum = calcGenerationScoresSum(chromosomeWithScores);
+    private double calcFixedPointUponGenerationScoresSum(List<Individual> individuals) {
+        double scoresSum = calcGenerationScoresSum(individuals);
         return random.nextDouble() * scoresSum;
     }
 
-    private double calcGenerationScoresSum(List<ChromosomeWithScore> chromosomeWithScores) {
-        return chromosomeWithScores.stream()
+    private double calcGenerationScoresSum(List<Individual> individuals) {
+        return individuals.stream()
             .mapToDouble(this::chromosomeAdjustedScore)
             .sum();
     }

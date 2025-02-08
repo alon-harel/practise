@@ -13,9 +13,9 @@ public class PopulationReproducerImplTest {
 
     @Test
     public void reproduceGeneration_fromCurrentGenerationAndItsFitnessScores() {
-        ChromosomeWithScore firstParent = new ChromosomeWithScore(new Chromosome(List.of("a")), 100.0);
-        ChromosomeWithScore secondParent = new ChromosomeWithScore(new Chromosome(List.of("b")), 1.0);
-        List<ChromosomeWithScore> generation = List.of(firstParent, secondParent);
+        Individual firstParent = new Individual(new Chromosome(List.of("a")), 100.0);
+        Individual secondParent = new Individual(new Chromosome(List.of("b")), 1.0);
+        List<Individual> generation = List.of(firstParent, secondParent);
 
         Chromosome firstOffspring = new Chromosome(List.of("c"));
         Chromosome secondOffspring = new Chromosome(List.of("d"));

@@ -1,6 +1,6 @@
 package com.harel.ga.alg.selector;
 
-import com.harel.ga.alg.ChromosomeWithScore;
+import com.harel.ga.alg.Individual;
 
 import java.util.Random;
 
@@ -10,8 +10,8 @@ public class LowestScoreRouletteWheelSelector extends RouletteWheelSelectorBase 
         super(random);
     }
 
-    protected double chromosomeAdjustedScore(ChromosomeWithScore chromosomeWithScore) {
-        return (chromosomeWithScore.getScore() != 0.0) ?
-            1 / chromosomeWithScore.getScore() : Double.POSITIVE_INFINITY;
+    protected double chromosomeAdjustedScore(Individual individual) {
+        return (individual.getScore() != 0.0) ?
+            1 / individual.getScore() : Double.POSITIVE_INFINITY;
     }
 }

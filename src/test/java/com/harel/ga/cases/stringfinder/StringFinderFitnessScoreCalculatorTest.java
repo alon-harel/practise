@@ -1,7 +1,7 @@
 package com.harel.ga.cases.stringfinder;
 
 import com.harel.ga.alg.Chromosome;
-import com.harel.ga.alg.ChromosomeWithScore;
+import com.harel.ga.alg.Individual;
 import org.junit.Test;
 
 import java.util.List;
@@ -19,7 +19,7 @@ public class StringFinderFitnessScoreCalculatorTest {
 
         assertThat(calculator.calc(List.of(chromosome)))
             .containsExactlyInAnyOrder(
-                new ChromosomeWithScore(chromosome, 500.0));
+                new Individual(chromosome, 500.0));
     }
 
     @Test
@@ -28,6 +28,6 @@ public class StringFinderFitnessScoreCalculatorTest {
 
         assertThat(calculator.calc(List.of(chromosome)))
             .containsExactlyInAnyOrder(
-                new ChromosomeWithScore(chromosome, Double.MAX_VALUE));
+                new Individual(chromosome, Double.MAX_VALUE));
     }
 }

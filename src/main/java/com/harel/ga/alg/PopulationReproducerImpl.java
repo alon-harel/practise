@@ -19,7 +19,7 @@ public class PopulationReproducerImpl implements PopulationReproducer {
     }
 
     @Override
-    public List<Chromosome> reproduce(List<ChromosomeWithScore> generationWithFitnessScores) {
+    public List<Chromosome> reproduce(List<Individual> generationWithFitnessScores) {
         List<Chromosome> newGeneration = new ArrayList<>(generationWithFitnessScores.size());
 
         for (int i = 0; i < generationWithFitnessScores.size() / 2; i++) {
@@ -31,7 +31,7 @@ public class PopulationReproducerImpl implements PopulationReproducer {
         return newGeneration;
     }
 
-    private Pair<Chromosome, Chromosome> produceOffsprings(List<ChromosomeWithScore> generationWithFitnessScores) {
+    private Pair<Chromosome, Chromosome> produceOffsprings(List<Individual> generationWithFitnessScores) {
         Chromosome firstParent = chromosomeSelector.select(generationWithFitnessScores);
         Chromosome secondParent = chromosomeSelector.select(generationWithFitnessScores);
 
