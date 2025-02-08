@@ -27,4 +27,6 @@ dependencies {
 
     testImplementation group: 'org.hamcrest', name: 'hamcrest-all', version: '1.3'
 
+    implementation files('lib/netgene.jar')
+
 }

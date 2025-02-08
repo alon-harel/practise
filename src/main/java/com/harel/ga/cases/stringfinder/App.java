@@ -11,9 +11,7 @@ import com.harel.ga.alg.PopulationReproducer;
 import com.harel.ga.alg.PopulationReproducerImpl;
 import com.harel.ga.alg.crossover.RandomOnePointCrossover;
 import com.harel.ga.alg.fittestfinder.HighFittestScoreFinder;
-import com.harel.ga.alg.fittestfinder.LowScoreAsFittest;
 import com.harel.ga.alg.mutation.FlipStringGeneMutator;
-import com.harel.ga.alg.selector.LowestScoreRouletteWheelSelector;
 import com.harel.ga.alg.selector.RouletteWheelSelector;
 
 import java.util.Random;
@@ -21,11 +19,11 @@ import java.util.Random;
 public class App {
 
     public static void main(String[] args) {
-        StringFinderContext context = new StringFinderContext("I study @ home");
+        String stringToMatch = "I study @ home";
 
         Random random = new Random();
-        PopulationInitializer<StringFinderContext> populationInitializer = new PopulationOfStringInitializer(random);
-        FitnessScoreCalculator<StringFinderContext> fitnessScoreCalculator = new StringFinderFitnessScoreCalculator();
+        PopulationInitializer populationInitializer = new PopulationOfStringInitializer(stringToMatch.length(), random);
+        FitnessScoreCalculator fitnessScoreCalculator = new StringFinderFitnessScoreCalculator(stringToMatch);
         FittestChromosomeFinder fittestChromosomeFinder = new HighFittestScoreFinder();
 
         ChromosomeSelector chromosomeSelector = new RouletteWheelSelector(random);
@@ -35,9 +33,9 @@ public class App {
             crossoverPerformer,
             mutator);
 
-        Algorithm<StringFinderContext> algorithm = new Algorithm<>(populationInitializer,
+        Algorithm algorithm = new Algorithm(populationInitializer,
             fitnessScoreCalculator, fittestChromosomeFinder, populationReproducer);
 
-        algorithm.execute(context, 500, 3500);
+        algorithm.execute(500, 3500);
     }
 }

@@ -14,15 +14,13 @@ import static org.mockito.Mockito.when;
 public class PopulationOfStringInitializerTest {
 
     private final Random random = mock(Random.class);
-    private final PopulationOfStringInitializer initializer = new PopulationOfStringInitializer(random);
+    private final PopulationOfStringInitializer initializer = new PopulationOfStringInitializer(1, random);
 
     @Test
     public void initializePopulation() {
         ensureToPickChars('!', 'C');
 
-        StringFinderContext context = new StringFinderContext("a");
-
-        assertThat(initializer.init(context, 2)).containsExactlyInAnyOrder(
+        assertThat(initializer.init( 2)).containsExactlyInAnyOrder(
             new Chromosome(List.of("!")),
             new Chromosome(List.of("C")));
     }

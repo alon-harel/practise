@@ -18,7 +18,7 @@ public class AlgorithmTest {
     private final static DummyContext DUMMY_CONTEXT = new DummyContext();
 
     private final PopulationInitializer<DummyContext> populationInitializer = mock(PopulationInitializer.class);
-    private final FitnessScoreCalculator<DummyContext> fitnessScoreCalculator = mock(FitnessScoreCalculator.class);
+    private final FitnessScoreCalculator fitnessScoreCalculator = mock(FitnessScoreCalculator.class);
     private final FittestChromosomeFinder fittestChromosomeFinder = mock(FittestChromosomeFinder.class);
     private final PopulationReproducer populationReproducer = mock(PopulationReproducer.class);
 
@@ -39,7 +39,7 @@ public class AlgorithmTest {
         ChromosomeWithScore fittestChromosome = findFittestChromosome(generationWithScores);
 
         when(populationInitializer.init(DUMMY_CONTEXT, generation.size())).thenReturn(generation);
-        when(fitnessScoreCalculator.calc(DUMMY_CONTEXT, generation)).thenReturn(generationWithScores);
+        when(fitnessScoreCalculator.calc(generation)).thenReturn(generationWithScores);
         when(fittestChromosomeFinder.find(generationWithScores)).thenReturn(fittestChromosome);
 
         assertThat(algorithm.execute(DUMMY_CONTEXT, generation.size(), 1)).isEqualTo(fittestChromosome);
@@ -76,15 +76,15 @@ public class AlgorithmTest {
         ChromosomeWithScore fittestChromosomeSecondGen = findFittestChromosome(secondGenerationWithScores);
 
         when(populationInitializer.init(DUMMY_CONTEXT, firstGeneration.size())).thenReturn(firstGeneration);
-        when(fitnessScoreCalculator.calc(DUMMY_CONTEXT, firstGeneration)).thenReturn(firstGenerationWithScores);
+        when(fitnessScoreCalculator.calc(firstGeneration)).thenReturn(firstGenerationWithScores);
         when(fittestChromosomeFinder.find(firstGenerationWithScores)).thenReturn(fittestChromosomeFirstGen);
         when(populationReproducer.reproduce(firstGenerationWithScores)).thenReturn(secondGeneration);
-        when(fitnessScoreCalculator.calc(DUMMY_CONTEXT, secondGeneration)).thenReturn(secondGenerationWithScores);
+        when(fitnessScoreCalculator.calc(secondGeneration)).thenReturn(secondGenerationWithScores);
         when(fittestChromosomeFinder.find(secondGenerationWithScores)).thenReturn(fittestChromosomeSecondGen);
 
         assertThat(algorithm.execute(DUMMY_CONTEXT, firstGeneration.size(), 2))
             .isEqualTo(fittestChromosomeSecondGen);
     }
 
-    private static class DummyContext implements AlgorithmContext {}
+    private static class DummyContext {}
 }

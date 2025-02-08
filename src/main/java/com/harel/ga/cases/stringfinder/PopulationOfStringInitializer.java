@@ -7,21 +7,23 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public class PopulationOfStringInitializer implements PopulationInitializer<StringFinderContext> {
+public class PopulationOfStringInitializer implements PopulationInitializer {
+    private final int stringToMatchSize;
     private final Random random;
 
-    public PopulationOfStringInitializer(Random random) {
+    public PopulationOfStringInitializer(int stringToMatchSize,
+                                         Random random) {
+        this.stringToMatchSize = stringToMatchSize;
         this.random = random;
     }
 
     @Override
-    public List<Chromosome> init(StringFinderContext context,
-                                 int populationSize) {
+    public List<Chromosome> init(int populationSize) {
         List<Chromosome> generation = new ArrayList<>(populationSize);
 
         for (int i = 0; i < populationSize; i++) {
-            List<Object> genes = new ArrayList<>(context.getStringToCalc().length());
-            for (int k = 0; k < context.getStringToCalc().length(); k++) {
+            List<Object> genes = new ArrayList<>(stringToMatchSize);
+            for (int k = 0; k < stringToMatchSize; k++) {
                 genes.add(pickRandomAsciiLetter());
             }
             generation.add(new Chromosome(genes));
