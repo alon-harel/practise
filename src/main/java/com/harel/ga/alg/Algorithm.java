@@ -2,22 +2,20 @@ package com.harel.ga.alg;
 
 import lombok.extern.slf4j.Slf4j;
 
+import java.util.Comparator;
 import java.util.List;
 
 @Slf4j
 public class Algorithm {
     private final PopulationInitializer populationInitializer;
     private final FitnessScoreCalculator fitnessScoreCalculator;
-    private final FittestChromosomeFinder fittestChromosomeFinder;
     private final PopulationReproducer populationReproducer;
 
     public Algorithm(PopulationInitializer populationInitializer,
                      FitnessScoreCalculator fitnessScoreCalculator,
-                     FittestChromosomeFinder fittestChromosomeFinder,
                      PopulationReproducer populationReproducer) {
         this.populationInitializer = populationInitializer;
         this.fitnessScoreCalculator = fitnessScoreCalculator;
-        this.fittestChromosomeFinder = fittestChromosomeFinder;
         this.populationReproducer = populationReproducer;
     }
 
@@ -35,13 +33,20 @@ public class Algorithm {
         do {
             List<ChromosomeWithScore> chromosomeByFitnessScore = fitnessScoreCalculator.calc(generation);
             generation = populationReproducer.reproduce(chromosomeByFitnessScore);
-            fittestChromosome = fittestChromosomeFinder.find(chromosomeByFitnessScore);
+            fittestChromosome = findFittestChromosome(chromosomeByFitnessScore);
 
             generationNumber++;
             printBestChromosomeOfGeneration(fittestChromosome, generationNumber);
         }
         while (generationNumber < generationCount && fittestChromosome.getScore() != Double.MAX_VALUE);
         return fittestChromosome;
+    }
+
+    private ChromosomeWithScore findFittestChromosome(List<ChromosomeWithScore> chromosomeWithScores) {
+        return chromosomeWithScores.stream()
+            .max(Comparator.comparingDouble(ChromosomeWithScore::getScore))
+            .orElseThrow(() -> new IllegalArgumentException("generation is empty."));
+
     }
 
     private void printBestChromosomeOfGeneration(ChromosomeWithScore chromosome,

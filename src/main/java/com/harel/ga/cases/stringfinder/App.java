@@ -4,13 +4,11 @@ import com.harel.ga.alg.Algorithm;
 import com.harel.ga.alg.ChromosomeSelector;
 import com.harel.ga.alg.CrossoverPerformer;
 import com.harel.ga.alg.FitnessScoreCalculator;
-import com.harel.ga.alg.FittestChromosomeFinder;
 import com.harel.ga.alg.Mutator;
 import com.harel.ga.alg.PopulationInitializer;
 import com.harel.ga.alg.PopulationReproducer;
 import com.harel.ga.alg.PopulationReproducerImpl;
 import com.harel.ga.alg.crossover.RandomOnePointCrossover;
-import com.harel.ga.alg.fittestfinder.HighFittestScoreFinder;
 import com.harel.ga.alg.mutation.FlipStringGeneMutator;
 import com.harel.ga.alg.selector.RouletteWheelSelector;
 
@@ -24,7 +22,6 @@ public class App {
         Random random = new Random();
         PopulationInitializer populationInitializer = new PopulationOfStringInitializer(stringToMatch.length(), random);
         FitnessScoreCalculator fitnessScoreCalculator = new StringFinderFitnessScoreCalculator(stringToMatch);
-        FittestChromosomeFinder fittestChromosomeFinder = new HighFittestScoreFinder();
 
         ChromosomeSelector chromosomeSelector = new RouletteWheelSelector(random);
         CrossoverPerformer crossoverPerformer = new RandomOnePointCrossover(random);
@@ -34,7 +31,7 @@ public class App {
             mutator);
 
         Algorithm algorithm = new Algorithm(populationInitializer,
-            fitnessScoreCalculator, fittestChromosomeFinder, populationReproducer);
+            fitnessScoreCalculator, populationReproducer);
 
         algorithm.execute(500, 3500);
     }
