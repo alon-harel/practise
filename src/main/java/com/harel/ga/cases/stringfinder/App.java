@@ -1,6 +1,8 @@
 package com.harel.ga.cases.stringfinder;
 
 import com.harel.ga.alg.Algorithm;
+import com.harel.ga.alg.AlgorithmCreator;
+import com.harel.ga.alg.Chromosome;
 import com.harel.ga.alg.ChromosomeSelector;
 import com.harel.ga.alg.CrossoverPerformer;
 import com.harel.ga.alg.FitnessScoreCalculator;
@@ -11,6 +13,7 @@ import com.harel.ga.alg.crossover.RandomOnePointCrossover;
 import com.harel.ga.alg.mutation.FlipStringGeneMutator;
 import com.harel.ga.alg.selector.RouletteWheelSelector;
 
+import java.util.List;
 import java.util.Random;
 
 public class App {
@@ -19,18 +22,17 @@ public class App {
         String stringToMatch = "I study @ home";
 
         Random random = new Random();
-        PopulationOfStringInitializer populationInitializer = new PopulationOfStringInitializer(stringToMatch.length(), random);
+        List<Chromosome> population = createPopulation(stringToMatch, random);
         FitnessScoreCalculator fitnessScoreCalculator = new StringFinderFitnessScoreCalculator(stringToMatch);
-
-        ChromosomeSelector chromosomeSelector = new RouletteWheelSelector(random);
-        CrossoverPerformer crossoverPerformer = new RandomOnePointCrossover(random);
         Mutator mutator = new FlipStringGeneMutator(random, 0.005);
-        PopulationReproducer populationReproducer = new PopulationReproducerImpl(chromosomeSelector,
-            crossoverPerformer,
-            mutator);
 
-        Algorithm algorithm = new Algorithm(fitnessScoreCalculator, populationReproducer);
+        Algorithm algorithm = AlgorithmCreator.create(fitnessScoreCalculator, mutator);
 
-        algorithm.execute(populationInitializer.init(500), 3500);
+        algorithm.execute(population, 3500);
+    }
+
+    private static List<Chromosome> createPopulation(String stringToMatch, Random random) {
+        PopulationOfStringInitializer populationInitializer = new PopulationOfStringInitializer(stringToMatch.length(), random);
+        return populationInitializer.init(500);
     }
 }

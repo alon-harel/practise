@@ -18,7 +18,6 @@ public class Algorithm {
 
     public Individual execute(List<Chromosome> population,
                               int generationCount) {
-
         return performEvolution(generationCount, population);
     }
 
