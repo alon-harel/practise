@@ -30,4 +30,20 @@ public class StringFinderFitnessScoreCalculatorTest {
             .containsExactlyInAnyOrder(
                 new Individual(chromosome, Double.MAX_VALUE));
     }
+
+    @Test
+    public void calcIndividualScoreWhenAllLettersAreChanged() {
+        Chromosome chromosome = new Chromosome(List.of("g", "h"));
+
+        assertThat(calculator.calc(chromosome))
+            .isEqualTo(new Individual(chromosome, 50.0));
+    }
+
+    @Test
+    public void individualWithMaxScoreIfAllLettersAreTheSame() {
+        Chromosome chromosome = new Chromosome(List.of("a", "b"));
+
+        assertThat(calculator.calc(chromosome)).isEqualTo(
+                new Individual(chromosome, Double.MAX_VALUE));
+    }
 }

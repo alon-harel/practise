@@ -18,12 +18,17 @@ public class StringFinderFitnessScoreCalculator implements FitnessScoreCalculato
     public List<Individual> calc(List<Chromosome> generation) {
         List<Individual> result = new ArrayList<>(generation.size());
         for (Chromosome chromosome : generation) {
-            result.add(createChromosomeWithScore(chromosome));
+            result.add(createIndividual(chromosome));
         }
         return result;
     }
 
-    private Individual createChromosomeWithScore(Chromosome chromosome) {
+    @Override
+    public Individual calc(Chromosome chromosome) {
+        return createIndividual(chromosome);
+    }
+
+    private Individual createIndividual(Chromosome chromosome) {
         double score = findNumberOfDiverseLetters(chromosome);
         score = normalize(score);
         return new Individual(new Chromosome(chromosome), score);

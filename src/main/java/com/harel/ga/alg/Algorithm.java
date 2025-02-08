@@ -2,6 +2,7 @@ package com.harel.ga.alg;
 
 import lombok.extern.slf4j.Slf4j;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
@@ -16,32 +17,43 @@ public class Algorithm {
         this.populationReproducer = populationReproducer;
     }
 
-    public Individual execute(List<Chromosome> population,
+    public Individual execute(List<Chromosome> chromosomes,
                               int generationCount) {
+        List<Individual> population = createPopulation(chromosomes);
+
         return performEvolution(generationCount, population);
     }
 
     private Individual performEvolution(int generationCount,
-                                        List<Chromosome> generation) {
-        Individual fittestChromosome;
-        int generationNumber = 0;
-        do {
-            List<Individual> population = fitnessScoreCalculator.calc(generation);
-            generation = populationReproducer.reproduce(population);
-            fittestChromosome = findFittestChromosome(population);
+                                        List<Individual> population) {
+        Individual fittestIndividual = findFittestChromosome(population);
+
+        int generationNumber = 1;
+        while (generationNumber <= generationCount && fittestIndividual.getScore() != Double.MAX_VALUE) {
+            List<Chromosome> newGeneration = populationReproducer.reproduce(population);
+            population = createPopulation(newGeneration);
+            fittestIndividual = findFittestChromosome(population);
+            printBestChromosomeOfGeneration(fittestIndividual, generationNumber);
 
             generationNumber++;
-            printBestChromosomeOfGeneration(fittestChromosome, generationNumber);
         }
-        while (generationNumber < generationCount && fittestChromosome.getScore() != Double.MAX_VALUE);
-        return fittestChromosome;
+
+        return fittestIndividual;
+    }
+
+    private List<Individual> createPopulation(List<Chromosome> generation) {
+        List<Individual> population = new ArrayList<>(generation.size());
+        for (Chromosome chromosome : generation) {
+            population.add(fitnessScoreCalculator.calc(chromosome));
+        }
+
+        return population;
     }
 
     private Individual findFittestChromosome(List<Individual> individuals) {
         return individuals.stream()
             .max(Comparator.comparingDouble(Individual::getScore))
             .orElseThrow(() -> new IllegalArgumentException("generation is empty."));
-
     }
 
     private void printBestChromosomeOfGeneration(Individual chromosome,
