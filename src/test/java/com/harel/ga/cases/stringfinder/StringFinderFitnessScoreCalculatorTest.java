@@ -14,14 +14,22 @@ public class StringFinderFitnessScoreCalculatorTest {
         new StringFinderFitnessScoreCalculator();
 
     @Test
-    public void sumDistanceBetweenGenes() {
-        StringFinderContext context = new StringFinderContext("ef");
-        Chromosome chromosomeWithScore4 = new Chromosome(List.of("g", "h"));
-        Chromosome chromosomeWithScore6 = new Chromosome(List.of("b", "c"));
+    public void calcScoreOfAllChangedLetters() {
+        StringFinderContext context = new StringFinderContext("ab");
+        Chromosome chromosome = new Chromosome(List.of("g", "h"));
 
-        assertThat(calculator.calc(context, List.of(chromosomeWithScore4, chromosomeWithScore6)))
+        assertThat(calculator.calc(context, List.of(chromosome)))
             .containsExactlyInAnyOrder(
-                new ChromosomeWithScore(chromosomeWithScore4, 4.0),
-                new ChromosomeWithScore(chromosomeWithScore6, 6.0));
+                new ChromosomeWithScore(chromosome, 500.0));
+    }
+
+    @Test
+    public void scoreIsMaxIfAllLettersAreTheSame() {
+        StringFinderContext context = new StringFinderContext("ab");
+        Chromosome chromosome = new Chromosome(List.of("a", "b"));
+
+        assertThat(calculator.calc(context, List.of(chromosome)))
+            .containsExactlyInAnyOrder(
+                new ChromosomeWithScore(chromosome, Double.MAX_VALUE));
     }
 }
