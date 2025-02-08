@@ -3,11 +3,14 @@ package com.harel.ga.alg;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
+import org.mockito.stubbing.Answer;
 
 import java.util.List;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.reset;
@@ -28,34 +31,44 @@ public class AlgorithmTest {
     );
 
     private final FitnessScoreCalculator fitnessScoreCalculator = mock(FitnessScoreCalculator.class);
+    private final TerminationCondition terminationCondition = mock(TerminationCondition.class);
     private final PopulationReproducer populationReproducer = mock(PopulationReproducer.class);
 
     private final Algorithm algorithm = new Algorithm(fitnessScoreCalculator,
-        populationReproducer);
+        terminationCondition, populationReproducer);
 
     @Before
     public void setup() {
-        reset(fitnessScoreCalculator, populationReproducer);
+        reset(fitnessScoreCalculator, terminationCondition, populationReproducer);
 
         when(fitnessScoreCalculator.calc(FIRST_CHROMOSOME)).thenReturn(INDIVIDUAL);
         when(fitnessScoreCalculator.calc(SECOND_CHROMOSOME)).thenReturn(FITTEST_INDIVIDUAL);
 
+        when(terminationCondition.shouldContinue(anyInt(), anyInt(), any(Individual.class)))
+            .thenAnswer((Answer<Boolean>) invocation -> {
+                int generataionCount = invocation.getArgument(0);
+                int generationNumber = invocation.getArgument(1);
+                return generataionCount >= generationNumber;
+            });
+
+
         when(populationReproducer.reproduce(
             argThat((individuals -> individuals.containsAll(List.of(INDIVIDUAL, FITTEST_INDIVIDUAL)))))).thenReturn(CHROMOSOMES);
-
-
     }
 
     @Test
     public void returnFittestChromosome_whenThereAreNoGenerations() {
-        assertThat(algorithm.execute(CHROMOSOMES, 0)).isEqualTo(FITTEST_INDIVIDUAL);
+        int generationCount = 0;
+
+        assertThat(algorithm.execute(CHROMOSOMES, generationCount)).isEqualTo(FITTEST_INDIVIDUAL);
     }
 
     @Test
     public void returnFittestChromosome_whenThereIsOneGenerations() {
-        assertThat(algorithm.execute(CHROMOSOMES, 1)).isEqualTo(FITTEST_INDIVIDUAL);
+        int generationCount = 1;
+        assertThat(algorithm.execute(CHROMOSOMES, generationCount)).isEqualTo(FITTEST_INDIVIDUAL);
 
-        verifyReproductionCount(1);
+        verifyReproductionCount(generationCount);
     }
 
     private void verifyReproductionCount(int wantedNumberOfInvocations) {
@@ -69,8 +82,20 @@ public class AlgorithmTest {
 
     @Test
     public void returnFittestChromosome_whenThereAreSeveralGenerations() {
-        assertThat(algorithm.execute(CHROMOSOMES, 8)).isEqualTo(FITTEST_INDIVIDUAL);
+        int generationCount = 8;
 
-        verifyReproductionCount(8);
+        assertThat(algorithm.execute(CHROMOSOMES, generationCount)).isEqualTo(FITTEST_INDIVIDUAL);
+
+        verifyReproductionCount(generationCount);
+    }
+
+    @Test
+    public void terminateAlgorithm_whenConditionMet() {
+        int generationCount = 30;
+        when(terminationCondition.shouldContinue(generationCount, 2, FITTEST_INDIVIDUAL)).thenReturn(false);
+
+        algorithm.execute(CHROMOSOMES, generationCount);
+
+        verifyReproductionCount(1);
     }
 }

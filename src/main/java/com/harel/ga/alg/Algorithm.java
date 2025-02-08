@@ -9,11 +9,14 @@ import java.util.List;
 @Slf4j
 public class Algorithm {
     private final FitnessScoreCalculator fitnessScoreCalculator;
+    private final TerminationCondition terminationCondition;
     private final PopulationReproducer populationReproducer;
 
     public Algorithm(FitnessScoreCalculator fitnessScoreCalculator,
+                     TerminationCondition terminationCondition,
                      PopulationReproducer populationReproducer) {
         this.fitnessScoreCalculator = fitnessScoreCalculator;
+        this.terminationCondition = terminationCondition;
         this.populationReproducer = populationReproducer;
     }
 
@@ -29,7 +32,7 @@ public class Algorithm {
         Individual fittestIndividual = findFittestChromosome(population);
 
         int generationNumber = 1;
-        while (generationNumber <= generationCount && fittestIndividual.getScore() != Double.MAX_VALUE) {
+        while (terminationCondition.shouldContinue(generationCount, generationNumber, fittestIndividual)) {
             List<Chromosome> newGeneration = populationReproducer.reproduce(population);
             population = createPopulation(newGeneration);
             fittestIndividual = findFittestChromosome(population);
